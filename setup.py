@@ -27,7 +27,8 @@ setup(
         'setuptools_scm',
     ],
     tests_require=[
-
+        'nose-progressive',
+        'coverage',
     ],
     test_suite='nose.collector',
     entry_points={

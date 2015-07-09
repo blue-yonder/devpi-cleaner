@@ -24,12 +24,12 @@ setup(
     ],
     setup_requires=[
         'nose',
+        'nose-progressive',
         'setuptools_scm',
     ],
     tests_require=[
         'coverage',
         'mock',
-        'nose-progressive',
     ],
     test_suite='nose.collector',
     entry_points={

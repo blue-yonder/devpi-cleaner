@@ -13,7 +13,7 @@ with open('CHANGELOG.rst') as f:
 setup(
     name='devpi-cleaner',
     use_scm_version=True,
-    description="""A utility to clean packages from a devpi server.""",
+    description="""A utility to clean packages from the Devpi server used at Blue Yonder.""",
     long_description='{}\n\n{}'.format(readme, changelog),
     author='Blue Yonder Technology Foundation Team',
     url='http://jira.phi-tps.local',
@@ -24,7 +24,6 @@ setup(
     ],
     setup_requires=[
         'nose',
-        'nose-progressive',
         'setuptools_scm',
     ],
     tests_require=[

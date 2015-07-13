@@ -27,6 +27,10 @@ def _bootstrap_test_user(client):
         client.upload('tests/artefacts/delete_me_package/dist', directory=True)
 
 
+def _filter_redirect_entry(packages):
+    return [package for package in packages if '*redirected' not in package]
+
+
 class IntegrationTests(unittest.TestCase):
 
     def test_dummy_setup(self):
@@ -52,6 +56,17 @@ class IntegrationTests(unittest.TestCase):
             indices = client.list_indices(user=TEST_USER)
             for index in indices:
                 client.use(index)
-                actual_package_list = [package for package in client.list('delete_me==0.2') if '*redirected' not in package]
-                self.assertListEqual([], actual_package_list)
-                self.assertNotEqual(0, len(client.list('delete_me==0.2.dev2')))
+                self.assertListEqual([], _filter_redirect_entry(client.list('delete_me==0.2')))
+                self.assertNotEqual(0, len(_filter_redirect_entry(client.list('delete_me==0.2.dev2'))))
+
+    def test_abort_unless_yes(self):
+        with TestServer(users=TEST_USERS, indices=TEST_INDICES) as client:
+            _bootstrap_test_user(client)
+
+            with mock.patch('sys.stdin', StringIO.StringIO('\n')):  # press enter on verification prompt
+                main([client.server_url, TEST_USER, TEST_PASSWORD, 'delete_me==0.2'])
+
+            indices = client.list_indices(user=TEST_USER)
+            for index in indices:
+                client.use(index)
+                self.assertNotEqual(0, len(_filter_redirect_entry(client.list('delete_me==0.2'))))

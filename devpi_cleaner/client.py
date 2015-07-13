@@ -26,7 +26,7 @@ class Package(object):
 
 def _list_packages_on_current_index(client, package_spec):
     return [
-        package_url
+        Package(package_url)
         for package_url in client.list('--all', package_spec)
         if package_url.startswith(client.url)
     ]

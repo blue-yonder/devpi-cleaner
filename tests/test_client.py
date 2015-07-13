@@ -12,8 +12,8 @@ from devpi_cleaner.client import list_packages, Package
 class ClientTests(unittest.TestCase):
     def test_list_packages(self):
         expected_packages = [
-            'http://dummy-server/nutzer/eins/paket-1.0',
-            'http://dummy-server/nutzer/zwei/paket-2.0',
+            'http://dummy-server/nutzer/eins/+f/70e/3bc67b3194143/paket-1.0.tar.gz',
+            'http://dummy-server/nutzer/zwei/+f/70e/3bc67b3194144/paket-2.0.tar.gz',
         ]
 
         devpi_client = Mock(spec=DevpiCommandWrapper)
@@ -23,7 +23,7 @@ class ClientTests(unittest.TestCase):
         devpi_client.url = 'http://dummy-server/nutzer'
 
         actual_packages = list_packages(devpi_client, 'paket')
-        self.assertEqual(expected_packages, actual_packages)
+        self.assertEqual(expected_packages, [str(package) for package in actual_packages])
 
     def test_list_packages_filters(self):
         """
@@ -48,7 +48,7 @@ class ClientTests(unittest.TestCase):
         devpi_client.list.return_value = devpi_listing
 
         actual_packages = list_packages(devpi_client, 'delete_me')
-        self.assertEqual(expected_packages, actual_packages)
+        self.assertEqual(expected_packages, [str(package) for package in actual_packages])
 
         devpi_client.list.assert_called_once_with('--all', 'delete_me')  # `--all` is important as otherwise not all packages will be returned
 

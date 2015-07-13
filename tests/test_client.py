@@ -49,3 +49,5 @@ class ClientTests(unittest.TestCase):
 
         actual_packages = list_packages(devpi_client, 'delete_me')
         self.assertEqual(expected_packages, actual_packages)
+
+        devpi_client.list.assert_called_once_with('--all', 'delete_me')  # `--all` is important as otherwise not all packages will be returned

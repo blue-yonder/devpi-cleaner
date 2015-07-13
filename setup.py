@@ -20,7 +20,7 @@ setup(
     author_email='Blue-Yonder.TeamTechnologie@blue-yonder.com',
     packages=find_packages(exclude='tests'),
     install_requires=[
-        'devpi-plumber',
+        'devpi-plumber>=0.2.4',
     ],
     setup_requires=[
         'nose',

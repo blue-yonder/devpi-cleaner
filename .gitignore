@@ -217,3 +217,5 @@ crashlytics-build.properties
 README.html
 
 CHANGELOG.html
+
+tests/artefacts/delete_me_package/build

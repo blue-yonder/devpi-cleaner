@@ -1,0 +1,7 @@
+devpi-plumber==0.2.4
+
+setuptools_scm
+
+coverage
+mock
+nose

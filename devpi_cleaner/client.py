@@ -40,7 +40,7 @@ def list_packages(client, package_spec):
     return result
 
 
-def remove_packages(client, package_spec):
-    for index in client.list_indices(user=client.user):
-        client.use(index)
-        client.remove(package_spec)
+def remove_packages(client, packages):
+    for package in packages:
+        client.use(package.index)
+        client.remove('{name}=={version}'.format(name=package.name, version=package.version))

@@ -14,6 +14,7 @@ def main(args=None):
     parser.add_argument('user', help='The devpi server of which to clean the indices')
     parser.add_argument('password', help='The password with which to authenticate')
     parser.add_argument('package_specification', help='The specification of the package version(s) to remove.')
+    parser.add_argument('--dev-only', help='Remove only development versions as specified by PEP 440.', action='store_true')
     args = parser.parse_args(args=args)
 
     with DevpiClient(args.server, args.user, args.password) as client:
@@ -28,4 +29,4 @@ def main(args=None):
             print 'Aborting...'
             return
 
-        remove_packages(client, args.package_specification)
+        remove_packages(client, packages)

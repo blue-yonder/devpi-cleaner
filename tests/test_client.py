@@ -6,7 +6,7 @@ from mock import Mock
 
 from devpi_plumber.client import DevpiCommandWrapper
 
-from devpi_cleaner.client import list_packages
+from devpi_cleaner.client import list_packages, Package
 
 
 class ClientTests(unittest.TestCase):
@@ -51,3 +51,17 @@ class ClientTests(unittest.TestCase):
         self.assertEqual(expected_packages, actual_packages)
 
         devpi_client.list.assert_called_once_with('--all', 'delete_me')  # `--all` is important as otherwise not all packages will be returned
+
+
+class PackageTests(unittest.TestCase):
+    def test_sdist(self):
+        package = Package('http://localhost:2414/user/index1/+f/45b/301745c6d8bbf/delete_me-0.1.tar.gz')
+        self.assertEquals('user/index1', package.index)
+        self.assertEquals('delete_me', package.name)
+        self.assertEquals('0.1', package.version)
+
+    def test_wheel(self):
+        package = Package('http://localhost:2414/user/index1/+f/636/95eef6ac86c76/delete_me-0.2.dev2-py2.py3-none-any.whl')
+        self.assertEquals('user/index1', package.index)
+        self.assertEquals('delete_me', package.name)
+        self.assertEquals('0.2.dev2', package.version)

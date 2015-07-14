@@ -11,6 +11,7 @@ class Package(object):
         self.index = parts[1] + '/' + parts[2]
         self.name, self.version = parts[6].split('-', 1)
         self._remove_distribution_type_from_version()
+        self.is_dev_package = '.dev' in self.version
 
     def _remove_distribution_type_from_version(self):
         if _TAR_GZ_END in self.version:
@@ -24,19 +25,20 @@ class Package(object):
         return self.url
 
 
-def _list_packages_on_current_index(client, package_spec):
+def _list_packages_on_current_index(client, package_spec, only_dev):
     return [
         Package(package_url)
         for package_url in client.list('--all', package_spec)
         if package_url.startswith(client.url)
+        and (not only_dev or Package(package_url).is_dev_package)
     ]
 
 
-def list_packages(client, package_spec):
+def list_packages(client, package_spec, only_dev):
     result = []
     for index in client.list_indices(user=client.user):
         client.use(index)
-        result.extend(_list_packages_on_current_index(client, package_spec))
+        result.extend(_list_packages_on_current_index(client, package_spec, only_dev))
     return result
 
 

@@ -18,7 +18,7 @@ def main(args=None):
     args = parser.parse_args(args=args)
 
     with DevpiClient(args.server, args.user, args.password) as client:
-        packages = list_packages(client, args.package_specification)
+        packages = list_packages(client, args.package_specification, args.dev_only)
 
         print 'Packages to be deleted: '
         for package in packages:

@@ -70,3 +70,18 @@ class IntegrationTests(unittest.TestCase):
             for index in indices:
                 client.use(index)
                 self.assertNotEqual(0, len(_filter_redirect_entry(client.list('delete_me==0.2'))))
+
+    def test_remove_only_dev_packages(self):
+        with TestServer(users=TEST_USERS, indices=TEST_INDICES) as client:
+            _bootstrap_test_user(client)
+
+            with mock.patch('sys.stdin', StringIO.StringIO('yes\n')):  # press enter on verification prompt
+                main([client.server_url, TEST_USER, TEST_PASSWORD, 'delete_me<=0.2', '--dev-only'])
+
+            indices = client.list_indices(user=TEST_USER)
+            for index in indices:
+                client.use(index)
+                self.assertListEqual([], _filter_redirect_entry(client.list('delete_me==0.2.dev2')))
+                self.assertNotEqual(0, len(_filter_redirect_entry(client.list('delete_me==0.1'))))
+                self.assertNotEqual(0, len(_filter_redirect_entry(client.list('delete_me==0.2a1'))))
+                self.assertNotEqual(0, len(_filter_redirect_entry(client.list('delete_me==0.2'))))

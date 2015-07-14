@@ -85,3 +85,27 @@ class IntegrationTests(unittest.TestCase):
                 self.assertNotEqual(0, len(_filter_redirect_entry(client.list('delete_me==0.1'))))
                 self.assertNotEqual(0, len(_filter_redirect_entry(client.list('delete_me==0.2a1'))))
                 self.assertNotEqual(0, len(_filter_redirect_entry(client.list('delete_me==0.2'))))
+
+    def test_fails_on_non_volatile_by_default(self):
+        with TestServer(users=TEST_USERS, indices=TEST_INDICES) as client:
+            _bootstrap_test_user(client)
+
+            indices = client.list_indices(user=TEST_USER)
+
+            for index in indices:
+                client.modify_index(index, 'volatile=False')
+
+            with mock.patch('sys.stderr', new_callable=StringIO.StringIO) as error_output:
+                with mock.patch('sys.stdin', StringIO.StringIO('yes\n')):  # press enter on verification prompt
+                    with self.assertRaises(SystemExit) as exit_code_catcher:
+                        main([client.server_url, TEST_USER, TEST_PASSWORD, 'delete_me<=0.2', '--dev-only'])
+                    self.assertEquals(1, exit_code_catcher.exception.code)
+
+            self.assertIn('cannot delete version on non-volatile index', error_output.getvalue())
+
+            for index in indices:
+                client.use(index)
+                self.assertNotEqual(0, len(_filter_redirect_entry(client.list('delete_me==0.1'))))
+                self.assertNotEqual(0, len(_filter_redirect_entry(client.list('delete_me==0.2.dev2'))))
+                self.assertNotEqual(0, len(_filter_redirect_entry(client.list('delete_me==0.2a1'))))
+                self.assertNotEqual(0, len(_filter_redirect_entry(client.list('delete_me==0.2'))))

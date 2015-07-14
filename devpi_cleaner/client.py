@@ -2,6 +2,7 @@
 
 
 _TAR_GZ_END = '.tar.gz'
+_ZIP_END = '.zip'
 
 
 class Package(object):
@@ -16,6 +17,8 @@ class Package(object):
     def _remove_distribution_type_from_version(self):
         if _TAR_GZ_END in self.version:
             self.version = self.version[:-len(_TAR_GZ_END)]
+        elif _ZIP_END in self.version:
+            self.version = self.version[:-len(_ZIP_END)]
         elif self.version.endswith('.whl'):
             self.version = self.version.split('-')[0]
         else:

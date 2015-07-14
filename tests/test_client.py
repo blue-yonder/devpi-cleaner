@@ -86,6 +86,9 @@ class PackageTests(unittest.TestCase):
         self.assertEquals('0.1', package.version)
         self.assertFalse(package.is_dev_package)
 
+        zip_package = Package('http://localhost:2414/user/index1/+f/45b/301745c6d8bbe/delete_me-0.1.zip')
+        self.assertEquals('0.1', zip_package.version)
+
     def test_wheel(self):
         package = Package('http://localhost:2414/user/index1/+f/636/95eef6ac86c76/delete_me-0.2.dev2-py2.py3-none-any.whl')
         self.assertEquals('user/index1', package.index)

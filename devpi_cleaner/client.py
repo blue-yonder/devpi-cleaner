@@ -48,8 +48,16 @@ def list_packages(client, package_spec, only_dev):
     return result
 
 
-def remove_packages(client, packages):
+def _filter_duplicates(packages):
+    filtered_packages = {}
     for package in packages:
+        package_id = '{index}/{name}=={version}'.format(index=package.index, name=package.name, version=package.version)
+        filtered_packages[package_id] = package
+    return filtered_packages.values()
+
+
+def remove_packages(client, packages):
+    for package in _filter_duplicates(packages):
         client.use(package.index)
         client.remove('{name}=={version}'.format(name=package.name, version=package.version))
 

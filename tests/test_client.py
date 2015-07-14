@@ -7,10 +7,10 @@ from six import assertRaisesRegex
 
 from devpi_plumber.client import DevpiCommandWrapper, DevpiClientError
 
-from devpi_cleaner.client import list_packages, Package, volatile_indices
+from devpi_cleaner.client import list_packages, remove_packages, Package, volatile_indices
 
 
-class ClientTests(unittest.TestCase):
+class ListTests(unittest.TestCase):
     def test_list_packages(self):
         expected_packages = [
             'http://dummy-server/nutzer/eins/+f/70e/3bc67b3194143/paket-1.0.tar.gz',
@@ -77,6 +77,31 @@ class ClientTests(unittest.TestCase):
 
         actual_packages = list_packages(devpi_client, 'delete_me', only_dev=True)
         self.assertEqual(expected_packages, [str(package) for package in actual_packages])
+
+
+class RemovalTests(unittest.TestCase):
+    def test_package_versions_not_removed_twice(self):
+        packages = [
+            Package('http://localhost:2414/user/index2/+f/70e/3bc67b3194143/delete_me-0.2-py2.py3-none-any.whl'),
+            Package('http://localhost:2414/user/index2/+f/313/8642d2b43a764/delete_me-0.2.tar.gz'),
+        ]
+
+        devpi_client = Mock(spec=DevpiCommandWrapper)
+        remove_packages(devpi_client, packages)
+
+        devpi_client.remove.assert_called_once_with('delete_me==0.2')
+
+    def test_same_package_on_separate_indices(self):
+        packages = [
+            Package('http://localhost:2414/user/index1/+f/313/8642d2b43a764/delete_me-0.2.tar.gz'),
+            Package('http://localhost:2414/user/index2/+f/313/8642d2b43a764/delete_me-0.2.tar.gz'),
+        ]
+
+        devpi_client = Mock(spec=DevpiCommandWrapper)
+        remove_packages(devpi_client, packages)
+
+        devpi_client.remove.assert_called_with('delete_me==0.2')
+        self.assertEquals(2, devpi_client.remove.call_count)
 
 
 class VolatileIndexTests(unittest.TestCase):

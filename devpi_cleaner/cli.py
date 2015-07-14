@@ -7,7 +7,11 @@ from devpi_plumber.client import DevpiClient, DevpiClientError
 from six import print_
 from six.moves import input
 
-from .client import list_packages, remove_packages
+from .client import list_packages, remove_packages, volatile_indices
+
+
+def _extract_indices(packages):
+    return set((package.index for package in packages))
 
 
 def main(args=None):
@@ -17,6 +21,7 @@ def main(args=None):
     parser.add_argument('password', help='The password with which to authenticate')
     parser.add_argument('package_specification', help='The specification of the package version(s) to remove.')
     parser.add_argument('--dev-only', help='Remove only development versions as specified by PEP 440.', action='store_true')
+    parser.add_argument('--force', help='Temporarily make indices volatile to enable package removal.', action='store_true')
     args = parser.parse_args(args=args)
 
     try:
@@ -32,7 +37,9 @@ def main(args=None):
                 print 'Aborting...'
                 return
 
-            remove_packages(client, packages)
+            with volatile_indices(client, *_extract_indices(packages), force=args.force):
+                remove_packages(client, packages)
+
     except DevpiClientError as client_error:
         print_(client_error, file=sys.stderr)
         sys.exit(1)

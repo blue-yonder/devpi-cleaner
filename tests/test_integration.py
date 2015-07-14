@@ -98,10 +98,10 @@ class IntegrationTests(unittest.TestCase):
             with mock.patch('sys.stderr', new_callable=StringIO.StringIO) as error_output:
                 with mock.patch('sys.stdin', StringIO.StringIO('yes\n')):  # press enter on verification prompt
                     with self.assertRaises(SystemExit) as exit_code_catcher:
-                        main([client.server_url, TEST_USER, TEST_PASSWORD, 'delete_me<=0.2', '--dev-only'])
+                        main([client.server_url, TEST_USER, TEST_PASSWORD, 'delete_me'])
                     self.assertEquals(1, exit_code_catcher.exception.code)
 
-            self.assertIn('cannot delete version on non-volatile index', error_output.getvalue())
+            self.assertIn('not volatile', error_output.getvalue())
 
             for index in indices:
                 client.use(index)
@@ -109,3 +109,25 @@ class IntegrationTests(unittest.TestCase):
                 self.assertNotEqual(0, len(_filter_redirect_entry(client.list('delete_me==0.2.dev2'))))
                 self.assertNotEqual(0, len(_filter_redirect_entry(client.list('delete_me==0.2a1'))))
                 self.assertNotEqual(0, len(_filter_redirect_entry(client.list('delete_me==0.2'))))
+
+    def test_force_removal_on_non_volatile(self):
+        with TestServer(users=TEST_USERS, indices=TEST_INDICES) as client:
+            _bootstrap_test_user(client)
+
+            indices = client.list_indices(user=TEST_USER)
+
+            client.modify_index('user/index1', 'volatile=False')
+
+            with mock.patch('sys.stdin', StringIO.StringIO('yes\n')):  # press enter on verification prompt
+                main([client.server_url, TEST_USER, TEST_PASSWORD, 'delete_me', '--force'])
+
+            for index in indices:
+                client.use(index)
+                self.assertListEqual([], _filter_redirect_entry(client.list('delete_me==0.1')))
+                self.assertListEqual([], _filter_redirect_entry(client.list('delete_me==0.2.dev2')))
+                self.assertListEqual([], _filter_redirect_entry(client.list('delete_me==0.2a1')))
+                self.assertListEqual([], _filter_redirect_entry(client.list('delete_me==0.2')))
+
+            self.assertIn('volatile=False', client.modify_index('user/index1'))
+            self.assertIn('volatile=True', client.modify_index('user/index2'))
+

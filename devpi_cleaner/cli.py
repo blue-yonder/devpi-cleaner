@@ -27,7 +27,7 @@ def main(args=None):
             for package in packages:
                 print ' * {package_url}'.format(package_url=package)
 
-            confirmation = input('Entery "yes" to confirm: ')
+            confirmation = input('Enter "yes" to confirm: ')
             if confirmation != 'yes':
                 print 'Aborting...'
                 return

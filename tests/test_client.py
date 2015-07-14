@@ -92,3 +92,8 @@ class PackageTests(unittest.TestCase):
         self.assertEquals('delete_me', package.name)
         self.assertEquals('0.2.dev2', package.version)
         self.assertTrue(package.is_dev_package)
+
+    def test_unkown_format(self):
+        with self.assertRaises(NotImplementedError):
+            Package('http://localhost:2414/user/index1/+f/45b/301745c6d8bbf/delete_me-0.1.unkown')
+

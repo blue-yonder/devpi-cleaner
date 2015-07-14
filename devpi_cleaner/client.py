@@ -19,7 +19,7 @@ class Package(object):
         elif self.version.endswith('.whl'):
             self.version = self.version.split('-')[0]
         else:
-            raise NotImplemented('Unkown package type {}. Cannot extract version.'.format(self.url))
+            raise NotImplementedError('Unkown package type {}. Cannot extract version.'.format(self.url))
 
     def __str__(self):
         return self.url

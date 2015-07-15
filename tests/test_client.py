@@ -155,3 +155,8 @@ class PackageTests(unittest.TestCase):
     def test_unknown_format(self):
         with self.assertRaises(NotImplementedError):
             Package('http://localhost:2414/user/index1/+f/45b/301745c6d8bbf/delete_me-0.1.unkown')
+
+    def test_string(self):
+        package_url = 'http://localhost:2414/user/index1/+f/45b/301745c6d8bbf/delete_me-0.1.tar.gz'
+        package = Package(package_url)
+        self.assertEquals(package_url, str(package))

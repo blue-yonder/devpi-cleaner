@@ -63,11 +63,6 @@ def remove_packages(client, packages, force):
             client.remove('{name}=={version}'.format(name=package.name, version=package.version))
 
 
-def _set_index_volatility(client, value, *indices):
-    for index in indices:
-        client.modify_index(index, 'volatile={}'.format(value))
-
-
 @contextmanager
 def volatile_index(client, index, force=False):
     """
@@ -83,7 +78,7 @@ def volatile_index(client, index, force=False):
 
     if is_non_volatile:
         if force:
-            _set_index_volatility(client, True, index)
+            client.modify_index(index, 'volatile=True')
         else:
             raise DevpiClientError('\n'.join(['Index {} is not volatile.'.format(index)]))
     try:
@@ -92,4 +87,4 @@ def volatile_index(client, index, force=False):
 
     finally:
         if is_non_volatile:
-            _set_index_volatility(client, False, index)
+            client.modify_index(index, 'volatile=False')

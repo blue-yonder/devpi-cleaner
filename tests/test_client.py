@@ -137,6 +137,17 @@ class VolatileIndexTests(unittest.TestCase):
 
         devpi_client.modify_index.assert_any_call('user/index1', 'volatile=False')
 
+    def test_is_exception_safe(self):
+        devpi_client = Mock(spec=DevpiCommandWrapper)
+        devpi_client.modify_index.return_value = 'volatile=False'
+
+        with self.assertRaises(Exception):
+            with volatile_index(devpi_client, 'user/index1', force=True):
+                devpi_client.reset_mock()  # Such that we can verify what happens on exit
+                raise Exception
+
+        devpi_client.modify_index.assert_any_call('user/index1', 'volatile=False')
+
 
 class PackageTests(unittest.TestCase):
     def test_sdist(self):

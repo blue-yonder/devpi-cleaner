@@ -11,7 +11,7 @@ _ZIP_END = '.zip'
 class Package(object):
     def __init__(self, package_url):
         self.url = package_url
-        parts = self.url.rsplit('/', 6)
+        parts = self.url.rsplit('/', 6)  # example URL http://localhost:2414/user/index1/+f/45b/301745c6d8bbf/delete_me-0.1.tar.gz
         self.index = parts[1] + '/' + parts[2]
         self.name, self.version = parts[6].split('-', 1)
         self._remove_distribution_type_from_version()

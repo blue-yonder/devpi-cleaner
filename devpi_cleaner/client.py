@@ -33,12 +33,13 @@ class Package(object):
 
 
 def _list_packages_on_current_index(client, package_spec, only_dev):
-    return [
-        Package(package_url)
-        for package_url in client.list('--all', package_spec)
-        if package_url.startswith(client.url)
-        and (not only_dev or Package(package_url).is_dev_package)
+    def selector(package):
+        return package.url.startswith(client.url) and (not only_dev or package.is_dev_package)
+
+    all_packages = [
+        Package(package_url) for package_url in client.list('--all', package_spec) if package_url.startswith('http://')
     ]
+    return filter(selector, all_packages)
 
 
 def list_packages(client, package_spec, only_dev):

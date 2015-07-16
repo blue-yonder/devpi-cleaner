@@ -80,7 +80,7 @@ def volatile_index(client, index, force=False):
         if force:
             client.modify_index(index, 'volatile=True')
         else:
-            raise DevpiClientError('\n'.join(['Index {} is not volatile.'.format(index)]))
+            raise DevpiClientError('Index {} is not volatile.'.format(index))
     try:
 
         yield

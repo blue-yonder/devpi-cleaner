@@ -56,10 +56,11 @@ def _filter_duplicates(packages):
     }.values()
 
 
-def remove_packages(client, packages):
+def remove_packages(client, packages, force):
     for package in _filter_duplicates(packages):
         client.use(package.index)
-        client.remove('{name}=={version}'.format(name=package.name, version=package.version))
+        with volatile_index(client, package.index, force):
+            client.remove('{name}=={version}'.format(name=package.name, version=package.version))
 
 
 def _set_index_volatility(client, value, *indices):
@@ -68,26 +69,25 @@ def _set_index_volatility(client, value, *indices):
 
 
 @contextmanager
-def volatile_indices(client, *indices, **kwargs):
+def volatile_index(client, index, force=False):
     """
-    Ensure that the given indices are volatile.
+    Ensure that the given index is volatile.
 
     Unless the keyword argument `force` is used an exception will be raised if the index is not volatile.
 
     :param client: A devpi_plumber.DevpiClient connected to the server to operate on.
-    :param indices: The indices to ensure the volatility on.
+    :param index: The index to ensure the volatility on.
     :param force: If True, the indices will be set volatile and reset at the end.
     """
-    force = kwargs.get('force', False)
+    is_non_volatile = 'volatile=False' in client.modify_index(index)
 
-    non_volatile_indices = [index for index in indices if 'volatile=False' in client.modify_index(index)]
-
-    if len(non_volatile_indices) > 0:
+    if is_non_volatile:
         if force:
-            _set_index_volatility(client, True, *non_volatile_indices)
+            _set_index_volatility(client, True, index)
         else:
-            raise DevpiClientError('\n'.join(['Index {} is not volatile.'.format(index) for index in indices]))
+            raise DevpiClientError('\n'.join(['Index {} is not volatile.'.format(index)]))
 
     yield
 
-    _set_index_volatility(client, False, *non_volatile_indices)
+    if is_non_volatile:
+        _set_index_volatility(client, False, index)

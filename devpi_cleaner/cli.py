@@ -7,7 +7,7 @@ from devpi_plumber.client import DevpiClient, DevpiClientError
 from six import print_
 from six.moves import input
 
-from .client import list_packages, remove_packages, volatile_indices
+from .client import list_packages, remove_packages, volatile_index
 
 
 def _extract_indices(packages):
@@ -37,8 +37,7 @@ def main(args=None):
                 print 'Aborting...'
                 return
 
-            with volatile_indices(client, *_extract_indices(packages), force=args.force):
-                remove_packages(client, packages)
+            remove_packages(client, packages, args.force)
 
     except DevpiClientError as client_error:
         print_(client_error, file=sys.stderr)

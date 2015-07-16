@@ -7,7 +7,7 @@ from six import assertRaisesRegex
 
 from devpi_plumber.client import DevpiCommandWrapper, DevpiClientError
 
-from devpi_cleaner.client import list_packages, remove_packages, Package, volatile_indices
+from devpi_cleaner.client import list_packages, remove_packages, Package, volatile_index
 
 
 class ListTests(unittest.TestCase):
@@ -87,7 +87,8 @@ class RemovalTests(unittest.TestCase):
         ]
 
         devpi_client = Mock(spec=DevpiCommandWrapper)
-        remove_packages(devpi_client, packages)
+        devpi_client.modify_index.return_value = 'volatile=True'
+        remove_packages(devpi_client, packages, False)
 
         devpi_client.remove.assert_called_once_with('delete_me==0.2')
 
@@ -98,7 +99,8 @@ class RemovalTests(unittest.TestCase):
         ]
 
         devpi_client = Mock(spec=DevpiCommandWrapper)
-        remove_packages(devpi_client, packages)
+        devpi_client.modify_index.return_value = 'volatile=True'
+        remove_packages(devpi_client, packages, False)
 
         devpi_client.remove.assert_called_with('delete_me==0.2')
         self.assertEquals(2, devpi_client.remove.call_count)
@@ -111,27 +113,29 @@ class VolatileIndexTests(unittest.TestCase):
         devpi_client.modify_index.return_value = 'volatile=False'
 
         with assertRaisesRegex(self, DevpiClientError, 'Index user/index1 is not volatile.'):
-            with volatile_indices(devpi_client, 'user/index1'):
+            with volatile_index(devpi_client, 'user/index1'):
                 pass
 
     def test_passes_on_volatile_by_default(self):
         devpi_client = Mock(spec=DevpiCommandWrapper)
         devpi_client.modify_index.return_value = 'volatile=True'
 
-        with volatile_indices(devpi_client, 'user/index1'):
+        with volatile_index(devpi_client, 'user/index1'):
             pass
+
+        for call in devpi_client.modify_index.call_args_list:
+            for pos_arg in call[0][1:]:
+                self.assertNotIn('volatile=False', pos_arg, 'Previously volatile index has been switched to be non-volatile.')
 
     def test_toggles_non_volatile_if_forced(self):
         devpi_client = Mock(spec=DevpiCommandWrapper)
         devpi_client.modify_index.return_value = 'volatile=False'
 
-        with volatile_indices(devpi_client, 'user/index1', 'user/index2', force=True):
+        with volatile_index(devpi_client, 'user/index1', force=True):
             devpi_client.modify_index.assert_any_call('user/index1', 'volatile=True')
-            devpi_client.modify_index.assert_any_call('user/index2', 'volatile=True')
             devpi_client.reset_mock()  # Such that we can verify what happens on exit
 
         devpi_client.modify_index.assert_any_call('user/index1', 'volatile=False')
-        devpi_client.modify_index.assert_any_call('user/index2', 'volatile=False')
 
 
 class PackageTests(unittest.TestCase):

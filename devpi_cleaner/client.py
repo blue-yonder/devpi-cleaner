@@ -8,24 +8,25 @@ _TAR_GZ_END = '.tar.gz'
 _ZIP_END = '.zip'
 
 
+def _remove_distribution_type_from_version(version):
+    if version.endswith(_TAR_GZ_END):
+        return version[:-len(_TAR_GZ_END)]
+    elif version.endswith(_ZIP_END):
+        return version[:-len(_ZIP_END)]
+    elif version.endswith('.whl'):
+        return version.split('-')[0]
+    else:
+        raise NotImplementedError('Unknown package type. Cannot extract version from {}.'.format(version))
+
+
 class Package(object):
     def __init__(self, package_url):
         self.url = package_url
         parts = self.url.rsplit('/', 6)  # example URL http://localhost:2414/user/index1/+f/45b/301745c6d8bbf/delete_me-0.1.tar.gz
         self.index = parts[1] + '/' + parts[2]
-        self.name, self.version = parts[6].split('-', 1)
-        self._remove_distribution_type_from_version()
+        self.name, version_plus_distribution_type = parts[6].split('-', 1)
+        self.version = _remove_distribution_type_from_version(version_plus_distribution_type)
         self.is_dev_package = '.dev' in self.version
-
-    def _remove_distribution_type_from_version(self):
-        if _TAR_GZ_END in self.version:
-            self.version = self.version[:-len(_TAR_GZ_END)]
-        elif _ZIP_END in self.version:
-            self.version = self.version[:-len(_ZIP_END)]
-        elif self.version.endswith('.whl'):
-            self.version = self.version.split('-')[0]
-        else:
-            raise NotImplementedError('Unknown package type {}. Cannot extract version.'.format(self.url))
 
     def __str__(self):
         return self.url

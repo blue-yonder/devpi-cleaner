@@ -16,7 +16,7 @@ Devpi Cleaner
     :target: https://requires.io/github/blue-yonder/devpi-cleaner/requirements/?branch=master
 
 
-Léon, the devpi cleaner, helps to batch removal of files from a devpi server. Given a package and version specification
+Léon, the devpi cleaner, helps to batch removal of files from a `devpi server`_. Given a package and version specification
 it will remove the specified versions of a package from all indices of a given user.
 
 Use Cases
@@ -75,4 +75,5 @@ License
 `New BSD`_
 
 
+.. _devpi server: http://doc.devpi.net/latest/
 .. _New BSD: https://github.com/blue-yonder/devpi-cleaner/blob/master/COPYING

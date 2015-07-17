@@ -4,6 +4,7 @@ python:
 - '3.2'
 - '3.3'
 - '3.4'
+sudo: false
 install:
 - pip install -r requirements.txt
 - pip install coveralls
@@ -14,8 +15,8 @@ deploy:
   provider: pypi
   user: BYPyPi
   password:
-    secure: MHNvzUDHGS7SQdPxvZL+gayv6RVTNADZspXltt4eyiC3/xo8qTRuABfU2mNVJHtaxxEd7mSGoNHxsJUEPrU2CeDnD6JW760FdqCvGr5uARYkxoJhAAF8hfpUL7Y7XU1bdNVj/naxjLmPD5WayeWWPGObtiP1xnkxwydpCSFYGlM=
+    secure: NjiyBYuCko9EUnNirA9iEk/QfG0xf3n2ylcvDidQYrHzaVVhvdcvvERlkeu9W0Z1Ed7It4pW9VeRFR1Qh+rnR29obbTh61fUgDbbBbCExnZcdK/mrVs7LpGPCS98lFesQhGC2d3SndMnd+sUzAKWsnarOPAC8UsMRaNgmsZ/gKk=
   distributions: sdist bdist_wheel
   on:
     tags: true
-  
+    all_branches: true

@@ -2,8 +2,8 @@
 Devpi Cleaner
 =============
 
-A utility to clean packages from a devpi server. Given a package and version specification it will remove the package
-from all indices of a given user.
+Léon, the devpi cleaner, helps to batch remove files from a devpi server. Given a package and version specification it
+will remove the specified versions of a package from all indices of a given user.
 
 Use Cases
 =========

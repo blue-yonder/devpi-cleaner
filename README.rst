@@ -12,15 +12,45 @@ Use Cases
 * Removing packages uploaded by accident
 * Removing packages available from other indices
 
-Example Usage
-=============
+Léon by Example
+===============
 
-The following command will delete all development packages preceding version 4.0 of ``some_package`` in indices of
+The following command will delete all development packages preceding version 0.2 of ``delete_me`` in indices of
 the user::
 
-    devpi-cleaner --dev-only http://localhost:3141/ User Password 'some_package<4.0'
+    > devpi-cleaner http://localhost:2414/ user Password 'delete_me<=0.2' --dev-only
+    Packages to be deleted:
+     * http://localhost:2414/user/index2/+f/842/84d1283874110/delete_me-0.2.dev2.tar.gz
+     * http://localhost:2414/user/index2/+f/636/95eef6ac86c76/delete_me-0.2.dev2-py2.py3-none-any.whl
+     * http://localhost:2414/user/index1/+f/842/84d1283874110/delete_me-0.2.dev2.tar.gz
+     * http://localhost:2414/user/index1/+f/636/95eef6ac86c76/delete_me-0.2.dev2-py2.py3-none-any.whl
+    Enter "yes" to confirm:
+    >
 
-Packages will be listed and confirmation required before they are actually deleted from the server.
+As shown, packages will be listed and confirmation required before they are actually deleted from the server.
+
+Commandline Usage
+=================
+::
+
+    usage: devpi-cleaner [-h] [--dev-only] [--force]
+                         server user password package_specification
+
+    A utility to clean packages from the Devpi server used at Blue Yonder.
+
+    positional arguments:
+      server                The devpi server to operate on.
+      user                  The devpi server of which to clean the indices
+      password              The password with which to authenticate
+      package_specification
+                            The specification of the package version(s) to remove.
+
+    optional arguments:
+      -h, --help            show this help message and exit
+      --dev-only            Remove only development versions as specified by PEP
+                            440.
+      --force               Temporarily make indices volatile to enable package
+                            removal.
 
 License
 =======

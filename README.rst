@@ -19,12 +19,13 @@ Devpi Cleaner
 Léon, the devpi cleaner, helps to batch removal of files from a `devpi server`_. Given a package and version specification
 it will remove the specified versions of a package from all indices of a given user.
 
-Use Cases
+Rationale
 =========
+Devpi cleaner wraps the original `devpi remove` command. It provides the following extensions:
 
-* Removing outdated development packages
-* Removing packages uploaded by accident
-* Removing packages available from other indices
+* Conditionally limit removal to development packages.
+* Temporarily switch non-volatile indices to volatile.
+* Apply a remove operation to all indices of a user.
 
 Léon by Example
 ===============

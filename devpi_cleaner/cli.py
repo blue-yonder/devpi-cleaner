@@ -18,11 +18,12 @@ def _extract_indices(packages):
 def main(args=None):
     parser = argparse.ArgumentParser(description='A utility to clean packages from the Devpi server used at Blue Yonder.')
     parser.add_argument('server', help='The devpi server to operate on.')
-    parser.add_argument('user', help='The devpi server of which to clean the indices')
+    parser.add_argument('user', help='The devpi server of which to clean the indices.')
     parser.add_argument('package_specification', help='The specification of the package version(s) to remove.')
+    parser.add_argument('--batch', help='Assume yes on confirmation questions.', action='store_true')
     parser.add_argument('--dev-only', help='Remove only development versions as specified by PEP 440.', action='store_true')
     parser.add_argument('--force', help='Temporarily make indices volatile to enable package removal.', action='store_true')
-    parser.add_argument('--password', help='The password with which to authenticate')
+    parser.add_argument('--password', help='The password with which to authenticate.')
     args = parser.parse_args(args=args)
 
     password = args.password
@@ -37,10 +38,11 @@ def main(args=None):
             for package in packages:
                 print(' * {package_url}'.format(package_url=package))
 
-            confirmation = input('Enter "yes" to confirm: ')
-            if confirmation != 'yes':
-                print('Aborting...')
-                return
+            if not args.batch:
+                confirmation = input('Enter "yes" to confirm: ')
+                if confirmation != 'yes':
+                    print('Aborting...')
+                    return
 
             remove_packages(client, packages, args.force)
 

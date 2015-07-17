@@ -13,17 +13,17 @@ from devpi_cleaner.client import list_packages, remove_packages, Package, volati
 class ListTests(unittest.TestCase):
     def test_list_packages(self):
         expected_packages = [
-            'http://dummy-server/nutzer/eins/+f/70e/3bc67b3194143/paket-1.0.tar.gz',
-            'http://dummy-server/nutzer/zwei/+f/70e/3bc67b3194144/paket-2.0.tar.gz',
+            'http://dummy-server/user/eins/+f/70e/3bc67b3194143/dummy-1.0.tar.gz',
+            'http://dummy-server/user/zwei/+f/70e/3bc67b3194144/dummy-2.0.tar.gz',
         ]
 
         devpi_client = Mock(spec=DevpiCommandWrapper)
-        devpi_client.user = 'nutzer'
+        devpi_client.user = 'user'
         devpi_client.list_indices.return_value = ['eins', 'zwei']
         devpi_client.list.side_effect = [[package] for package in expected_packages]
-        devpi_client.url = 'http://dummy-server/nutzer'
+        devpi_client.url = 'http://dummy-server/user'
 
-        actual_packages = list_packages(devpi_client, 'paket', only_dev=False)
+        actual_packages = list_packages(devpi_client, 'dummy', only_dev=False)
         self.assertEqual(expected_packages, [str(package) for package in actual_packages])
 
     def test_list_packages_filters(self):

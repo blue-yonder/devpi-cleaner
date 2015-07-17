@@ -2,6 +2,20 @@
 Devpi Cleaner
 =============
 
+.. image:: https://travis-ci.org/blue-yonder/devpi-cleaner.svg?branch=master
+    :alt: Build Status
+    :target: https://travis-ci.org/blue-yonder/devpi-cleaner
+.. image:: https://coveralls.io/repos/blue-yonder/devpi-cleaner/badge.svg?branch=master
+    :alt: Coverage Status
+    :target: https://coveralls.io/r/blue-yonder/devpi-cleaner?branch=master
+.. image:: https://badge.fury.io/py/devpi-cleaner.svg
+    :alt: Latest Version
+    :target: https://pypi.python.org/pypi/devpi-cleaner
+.. image:: https://requires.io/github/blue-yonder/devpi-cleaner/requirements.svg?branch=master
+    :alt: Requirements Status
+    :target: https://requires.io/github/blue-yonder/devpi-cleaner/requirements/?branch=master
+
+
 Léon, the devpi cleaner, helps to batch remove files from a devpi server. Given a package and version specification it
 will remove the specified versions of a package from all indices of a given user.
 

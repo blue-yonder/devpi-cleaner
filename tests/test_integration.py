@@ -50,8 +50,10 @@ class IntegrationTests(unittest.TestCase):
         with TestServer(users=TEST_USERS, indices=TEST_INDICES) as client:
             _bootstrap_test_user(client)
 
-            with mock.patch('sys.stdin', six.StringIO('{password}\nyes\n'.format(password=TEST_PASSWORD))):
-                main([client.server_url, TEST_USER, 'delete_me==0.2'])
+            with mock.patch('getpass.getpass') as getpass:
+                getpass.return_value = TEST_PASSWORD
+                with mock.patch('sys.stdin', six.StringIO('yes\n')):
+                    main([client.server_url, TEST_USER, 'delete_me==0.2'])
 
             indices = client.list_indices(user=TEST_USER)
             for index in indices:

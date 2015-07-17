@@ -2,9 +2,9 @@
 
 import collections
 import unittest
-import StringIO
 
 import mock
+import six
 
 from devpi_plumber.server import TestServer
 
@@ -50,7 +50,7 @@ class IntegrationTests(unittest.TestCase):
         with TestServer(users=TEST_USERS, indices=TEST_INDICES) as client:
             _bootstrap_test_user(client)
 
-            with mock.patch('sys.stdin', StringIO.StringIO('{password}\nyes\n'.format(password=TEST_PASSWORD))):
+            with mock.patch('sys.stdin', six.StringIO('{password}\nyes\n'.format(password=TEST_PASSWORD))):
                 main([client.server_url, TEST_USER, 'delete_me==0.2'])
 
             indices = client.list_indices(user=TEST_USER)
@@ -63,7 +63,7 @@ class IntegrationTests(unittest.TestCase):
         with TestServer(users=TEST_USERS, indices=TEST_INDICES) as client:
             _bootstrap_test_user(client)
 
-            with mock.patch('sys.stdin', StringIO.StringIO('\n')):  # press enter on verification prompt
+            with mock.patch('sys.stdin', six.StringIO('\n')):  # press enter on verification prompt
                 main([client.server_url, TEST_USER, 'delete_me==0.2', '--password', TEST_PASSWORD])
 
             indices = client.list_indices(user=TEST_USER)
@@ -75,7 +75,7 @@ class IntegrationTests(unittest.TestCase):
         with TestServer(users=TEST_USERS, indices=TEST_INDICES) as client:
             _bootstrap_test_user(client)
 
-            with mock.patch('sys.stdin', StringIO.StringIO('yes\n')):  # press enter on verification prompt
+            with mock.patch('sys.stdin', six.StringIO('yes\n')):  # press enter on verification prompt
                 main([client.server_url, TEST_USER, 'delete_me<=0.2', '--dev-only', '--password', TEST_PASSWORD])
 
             indices = client.list_indices(user=TEST_USER)
@@ -95,8 +95,8 @@ class IntegrationTests(unittest.TestCase):
             for index in indices:
                 client.modify_index(index, 'volatile=False')
 
-            with mock.patch('sys.stderr', new_callable=StringIO.StringIO) as error_output:
-                with mock.patch('sys.stdin', StringIO.StringIO('yes\n')):  # press enter on verification prompt
+            with mock.patch('sys.stderr', new_callable=six.StringIO) as error_output:
+                with mock.patch('sys.stdin', six.StringIO('yes\n')):  # press enter on verification prompt
                     with self.assertRaises(SystemExit) as exit_code_catcher:
                         main([client.server_url, TEST_USER, 'delete_me', '--password', TEST_PASSWORD])
                     self.assertEquals(1, exit_code_catcher.exception.code)
@@ -118,7 +118,7 @@ class IntegrationTests(unittest.TestCase):
 
             client.modify_index('user/index1', 'volatile=False')
 
-            with mock.patch('sys.stdin', StringIO.StringIO('yes\n')):  # press enter on verification prompt
+            with mock.patch('sys.stdin', six.StringIO('yes\n')):  # press enter on verification prompt
                 main([client.server_url, TEST_USER, 'delete_me', '--force', '--password', TEST_PASSWORD])
 
             for index in indices:

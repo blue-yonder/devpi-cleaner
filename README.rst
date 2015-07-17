@@ -21,3 +21,11 @@ the user::
     devpi-cleaner --dev-only http://localhost:3141/ User Password 'some_package<4.0'
 
 Packages will be listed and confirmation required before they are actually deleted from the server.
+
+License
+=======
+
+`New BSD`_
+
+
+.. _New BSD: https://github.com/blue-yonder/devpi-cleaner/blob/master/COPYING

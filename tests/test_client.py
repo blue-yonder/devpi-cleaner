@@ -23,7 +23,7 @@ class ListTests(unittest.TestCase):
         devpi_client.list.side_effect = [[package] for package in expected_packages]
         devpi_client.url = 'http://dummy-server/user'
 
-        actual_packages = list_packages(devpi_client, 'dummy', only_dev=False)
+        actual_packages = list_packages(devpi_client, 'user', 'dummy', only_dev=False)
         self.assertEqual(expected_packages, [str(package) for package in actual_packages])
 
     def test_list_packages_filters(self):
@@ -48,7 +48,7 @@ class ListTests(unittest.TestCase):
         devpi_client.list_indices.return_value = ['index2']
         devpi_client.list.return_value = devpi_listing
 
-        actual_packages = list_packages(devpi_client, 'delete_me', only_dev=False)
+        actual_packages = list_packages(devpi_client, 'user', 'delete_me', only_dev=False)
         self.assertEqual(expected_packages, [str(package) for package in actual_packages])
 
         devpi_client.list.assert_called_once_with('--all', 'delete_me')  # `--all` is important as otherwise not all packages will be returned
@@ -75,7 +75,7 @@ class ListTests(unittest.TestCase):
         devpi_client.list_indices.return_value = ['index1']
         devpi_client.list.return_value = devpi_listing
 
-        actual_packages = list_packages(devpi_client, 'delete_me', only_dev=True)
+        actual_packages = list_packages(devpi_client, 'user', 'delete_me', only_dev=True)
         self.assertEqual(expected_packages, [str(package) for package in actual_packages])
 
 

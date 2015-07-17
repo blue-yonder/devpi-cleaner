@@ -130,3 +130,13 @@ class IntegrationTests(unittest.TestCase):
             self.assertIn('volatile=False', client.modify_index('user/index1'))
             self.assertIn('volatile=True', client.modify_index('user/index2'))
 
+    def test_other_users_indices(self):
+        with TestServer(users=TEST_USERS, indices=TEST_INDICES) as client:
+            _bootstrap_test_user(client)
+
+            main([client.server_url, TEST_USER, 'delete_me==0.2', '--batch', '--login', 'root', '--password', ''])
+
+            indices = client.list_indices(user=TEST_USER)
+            for index in indices:
+                client.use(index)
+                self.assertListEqual([], _filter_redirect_entry(client.list('delete_me==0.2')))

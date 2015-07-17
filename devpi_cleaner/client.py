@@ -42,9 +42,9 @@ def _list_packages_on_current_index(client, package_spec, only_dev):
     return filter(selector, all_packages)
 
 
-def list_packages(client, package_spec, only_dev):
+def list_packages(client, user, package_spec, only_dev):
     result = []
-    for index in client.list_indices(user=client.user):
+    for index in client.list_indices(user=user):
         client.use(index)
         result.extend(_list_packages_on_current_index(client, package_spec, only_dev))
     return result

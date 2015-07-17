@@ -20,15 +20,17 @@ def main(args=None):
     parser.add_argument('--dev-only', help='Remove only development versions as specified by PEP 440.', action='store_true')
     parser.add_argument('--force', help='Temporarily make indices volatile to enable package removal.', action='store_true')
     parser.add_argument('--password', help='The password with which to authenticate.')
+    parser.add_argument('--login', help='The user name to user for authentication. Defaults to the user of the indices to operate on.')
     args = parser.parse_args(args=args)
 
+    login_user = args.login if args.login else args.user
     password = args.password
     if password is None:
         password = getpass.getpass()
 
     try:
-        with DevpiClient(args.server, args.user, password) as client:
-            packages = list_packages(client, args.package_specification, args.dev_only)
+        with DevpiClient(args.server, login_user, password) as client:
+            packages = list_packages(client, args.user, args.package_specification, args.dev_only)
 
             print('Packages to be deleted: ')
             for package in packages:

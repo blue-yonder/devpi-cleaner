@@ -1,4 +1,4 @@
-devpi-plumber==0.2.4
+devpi-plumber==0.2.5
 six==1.9.0
 
 setuptools_scm

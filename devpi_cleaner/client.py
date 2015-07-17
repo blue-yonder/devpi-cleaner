@@ -1,8 +1,6 @@
 # coding=utf-8
 
-from contextlib import contextmanager
-
-from devpi_plumber.client import DevpiClientError
+from devpi_plumber.client import volatile_index
 
 _TAR_GZ_END = '.tar.gz'
 _ZIP_END = '.zip'
@@ -61,30 +59,3 @@ def remove_packages(client, packages, force):
         client.use(package.index)
         with volatile_index(client, package.index, force):
             client.remove('{name}=={version}'.format(name=package.name, version=package.version))
-
-
-@contextmanager
-def volatile_index(client, index, force=False):
-    """
-    Ensure that the given index is volatile.
-
-    Unless the keyword argument `force` is used an exception will be raised if the index is not volatile.
-
-    :param client: A devpi_plumber.DevpiClient connected to the server to operate on.
-    :param index: The index to ensure the volatility on.
-    :param force: If True, the indices will be set volatile and reset at the end.
-    """
-    is_non_volatile = 'volatile=False' in client.modify_index(index)
-
-    if is_non_volatile:
-        if force:
-            client.modify_index(index, 'volatile=True')
-        else:
-            raise DevpiClientError('Index {} is not volatile.'.format(index))
-    try:
-
-        yield
-
-    finally:
-        if is_non_volatile:
-            client.modify_index(index, 'volatile=False')

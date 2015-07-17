@@ -106,49 +106,6 @@ class RemovalTests(unittest.TestCase):
         self.assertEquals(2, devpi_client.remove.call_count)
 
 
-class VolatileIndexTests(unittest.TestCase):
-
-    def test_raises_on_non_volatile_by_default(self):
-        devpi_client = Mock(spec=DevpiCommandWrapper)
-        devpi_client.modify_index.return_value = 'volatile=False'
-
-        with assertRaisesRegex(self, DevpiClientError, 'Index user/index1 is not volatile.'):
-            with volatile_index(devpi_client, 'user/index1'):
-                pass
-
-    def test_passes_on_volatile_by_default(self):
-        devpi_client = Mock(spec=DevpiCommandWrapper)
-        devpi_client.modify_index.return_value = 'volatile=True'
-
-        with volatile_index(devpi_client, 'user/index1'):
-            pass
-
-        for call in devpi_client.modify_index.call_args_list:
-            for pos_arg in call[0][1:]:
-                self.assertNotIn('volatile=False', pos_arg, 'Previously volatile index has been switched to be non-volatile.')
-
-    def test_toggles_non_volatile_if_forced(self):
-        devpi_client = Mock(spec=DevpiCommandWrapper)
-        devpi_client.modify_index.return_value = 'volatile=False'
-
-        with volatile_index(devpi_client, 'user/index1', force=True):
-            devpi_client.modify_index.assert_any_call('user/index1', 'volatile=True')
-            devpi_client.reset_mock()  # Such that we can verify what happens on exit
-
-        devpi_client.modify_index.assert_any_call('user/index1', 'volatile=False')
-
-    def test_is_exception_safe(self):
-        devpi_client = Mock(spec=DevpiCommandWrapper)
-        devpi_client.modify_index.return_value = 'volatile=False'
-
-        with self.assertRaises(Exception):
-            with volatile_index(devpi_client, 'user/index1', force=True):
-                devpi_client.reset_mock()  # Such that we can verify what happens on exit
-                raise Exception
-
-        devpi_client.modify_index.assert_any_call('user/index1', 'volatile=False')
-
-
 class PackageTests(unittest.TestCase):
     def test_sdist(self):
         package = Package('http://localhost:2414/user/index1/+f/45b/301745c6d8bbf/delete_me-0.1.tar.gz')

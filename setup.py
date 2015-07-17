@@ -21,7 +21,7 @@ setup(
     license='new BSD',
     packages=find_packages(exclude=['tests']),
     install_requires=[
-        'devpi-plumber>=0.2.4',
+        'devpi-plumber>=0.2.5',
         'six',
     ],
     setup_requires=[

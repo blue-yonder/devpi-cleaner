@@ -33,13 +33,13 @@ def main(args=None):
         with DevpiClient(args.server, args.user, password) as client:
             packages = list_packages(client, args.package_specification, args.dev_only)
 
-            print 'Packages to be deleted: '
+            print('Packages to be deleted: ')
             for package in packages:
-                print ' * {package_url}'.format(package_url=package)
+                print(' * {package_url}'.format(package_url=package))
 
             confirmation = input('Enter "yes" to confirm: ')
             if confirmation != 'yes':
-                print 'Aborting...'
+                print('Aborting...')
                 return
 
             remove_packages(client, packages, args.force)

@@ -13,7 +13,7 @@ with open('CHANGELOG.rst') as f:
 setup(
     name='devpi-cleaner',
     use_scm_version=True,
-    description="""Batch remove packages from a devpi server.""",
+    description="""Enables batch removal of packages from a devpi server.""",
     long_description='{}\n\n{}'.format(readme, changelog),
     author='Matthias Bach',
     author_email='matthias.bach@blue-yonder.com',

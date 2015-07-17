@@ -75,8 +75,7 @@ class IntegrationTests(unittest.TestCase):
         with TestServer(users=TEST_USERS, indices=TEST_INDICES) as client:
             _bootstrap_test_user(client)
 
-            with mock.patch('sys.stdin', six.StringIO('yes\n')):  # press enter on verification prompt
-                main([client.server_url, TEST_USER, 'delete_me<=0.2', '--dev-only', '--password', TEST_PASSWORD])
+            main([client.server_url, TEST_USER, 'delete_me<=0.2', '--dev-only', '--batch', '--password', TEST_PASSWORD])
 
             indices = client.list_indices(user=TEST_USER)
             for index in indices:
@@ -96,10 +95,9 @@ class IntegrationTests(unittest.TestCase):
                 client.modify_index(index, 'volatile=False')
 
             with mock.patch('sys.stderr', new_callable=six.StringIO) as error_output:
-                with mock.patch('sys.stdin', six.StringIO('yes\n')):  # press enter on verification prompt
-                    with self.assertRaises(SystemExit) as exit_code_catcher:
-                        main([client.server_url, TEST_USER, 'delete_me', '--password', TEST_PASSWORD])
-                    self.assertEquals(1, exit_code_catcher.exception.code)
+                with self.assertRaises(SystemExit) as exit_code_catcher:
+                    main([client.server_url, TEST_USER, 'delete_me', '--batch', '--password', TEST_PASSWORD])
+                self.assertEquals(1, exit_code_catcher.exception.code)
 
             self.assertIn('not volatile', error_output.getvalue())
 
@@ -118,8 +116,7 @@ class IntegrationTests(unittest.TestCase):
 
             client.modify_index('user/index1', 'volatile=False')
 
-            with mock.patch('sys.stdin', six.StringIO('yes\n')):  # press enter on verification prompt
-                main([client.server_url, TEST_USER, 'delete_me', '--force', '--password', TEST_PASSWORD])
+            main([client.server_url, TEST_USER, 'delete_me', '--force', '--batch', '--password', TEST_PASSWORD])
 
             for index in indices:
                 client.use(index)

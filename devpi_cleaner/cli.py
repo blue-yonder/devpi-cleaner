@@ -11,10 +11,6 @@ from six.moves import input
 from .client import list_packages, remove_packages, volatile_index
 
 
-def _extract_indices(packages):
-    return set((package.index for package in packages))
-
-
 def main(args=None):
     parser = argparse.ArgumentParser(description='A utility to clean packages from the Devpi server used at Blue Yonder.')
     parser.add_argument('server', help='The devpi server to operate on.')

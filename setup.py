@@ -22,6 +22,7 @@ setup(
     packages=find_packages(exclude=['tests']),
     install_requires=[
         'devpi-plumber>=0.2.5',
+        'setuptools>=0.8',
         'six',
     ],
     setup_requires=[

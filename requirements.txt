@@ -4,6 +4,6 @@ setuptools==18.3.2
 
 setuptools_scm
 
-coverage
+coverage<4
 mock
 nose

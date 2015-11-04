@@ -35,7 +35,8 @@ def _list_packages_on_current_index(client, package_spec, only_dev):
         return package.url.startswith(client.url) and (not only_dev or package.is_dev_package)
 
     all_packages = [
-        Package(package_url) for package_url in client.list('--all', package_spec) if package_url.startswith('http://')
+        Package(package_url) for package_url in client.list('--all', package_spec)
+        if package_url.startswith('http://') or package_url.startswith('https://')
     ]
     return filter(selector, all_packages)
 

@@ -78,6 +78,21 @@ class ListTests(unittest.TestCase):
         actual_packages = list_packages(devpi_client, 'user', 'delete_me', only_dev=True)
         self.assertEqual(expected_packages, [str(package) for package in actual_packages])
 
+    def test_list_packages_on_https(self):
+        expected_packages = [
+            'https://dummy-server/user/eins/+f/70e/3bc67b3194143/dummy-1.0.tar.gz',
+            'https://dummy-server/user/zwei/+f/70e/3bc67b3194144/dummy-2.0.tar.gz',
+        ]
+
+        devpi_client = Mock(spec=DevpiCommandWrapper)
+        devpi_client.user = 'user'
+        devpi_client.list_indices.return_value = ['eins', 'zwei']
+        devpi_client.list.side_effect = [[package] for package in expected_packages]
+        devpi_client.url = 'https://dummy-server/user'
+
+        actual_packages = list_packages(devpi_client, 'user', 'dummy', only_dev=False)
+        self.assertEqual(expected_packages, [str(package) for package in actual_packages])
+
 
 class RemovalTests(unittest.TestCase):
     def test_package_versions_not_removed_twice(self):
@@ -129,6 +144,14 @@ class PackageTests(unittest.TestCase):
             Package('http://localhost:2414/user/index1/+f/45b/301745c6d8bbf/delete_me-0.1.unkown')
 
     def test_string(self):
-        package_url = 'http://localhost:2414/user/index1/+f/45b/301745c6d8bbf/delete_me-0.1.tar.gz'
-        package = Package(package_url)
-        self.assertEquals(package_url, str(package))
+        http_url = 'http://localhost:2414/user/index1/+f/45b/301745c6d8bbf/delete_me-0.1.tar.gz'
+        package = Package(http_url)
+        self.assertEquals(http_url, str(package))
+
+    def test_from_https_url(self):
+        package = Package('https://localhost:2414/user/index1/+f/636/95eef6ac86c76/delete_me-0.2.dev2-py2.py3-none-any.whl')
+        self.assertEquals('user/index1', package.index)
+        self.assertEquals('delete_me', package.name)
+        self.assertEquals('0.2.dev2', package.version)
+        self.assertTrue(package.is_dev_package)
+

@@ -3,11 +3,10 @@
 import unittest
 
 from mock import Mock
-from six import assertRaisesRegex
 
-from devpi_plumber.client import DevpiCommandWrapper, DevpiClientError
+from devpi_plumber.client import DevpiCommandWrapper
 
-from devpi_cleaner.client import list_packages, remove_packages, Package, volatile_index
+from devpi_cleaner.client import list_packages, remove_packages, Package
 
 
 class ListTests(unittest.TestCase):
@@ -154,4 +153,3 @@ class PackageTests(unittest.TestCase):
         self.assertEquals('delete_me', package.name)
         self.assertEquals('0.2.dev2', package.version)
         self.assertTrue(package.is_dev_package)
-

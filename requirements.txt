@@ -1,6 +1,6 @@
 devpi-plumber==0.2.5
 six==1.10.0
-setuptools==19.6
+setuptools==20.0
 
 setuptools_scm
 

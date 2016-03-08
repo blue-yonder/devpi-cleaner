@@ -4,6 +4,12 @@ Changelog
 
 This is the version history of `devpi_cleaner`.
 
+Version 0.2.0
+=============
+
+* Prompt the user for a list of package versions and the indices from which to delete them. Previously the user was
+  shown a list of package URLs. However, `devpi_cleaner` will actually delete by package version, not by uploaded file.
+
 Version 0.1.1
 =============
 

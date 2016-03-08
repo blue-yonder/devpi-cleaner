@@ -36,10 +36,8 @@ the user::
     > devpi-cleaner http://localhost:2414/ user 'delete_me<=0.2' --dev-only
     Password:
     Packages to be deleted:
-     * http://localhost:2414/user/index2/+f/842/84d1283874110/delete_me-0.2.dev2.tar.gz
-     * http://localhost:2414/user/index2/+f/636/95eef6ac86c76/delete_me-0.2.dev2-py2.py3-none-any.whl
-     * http://localhost:2414/user/index1/+f/842/84d1283874110/delete_me-0.2.dev2.tar.gz
-     * http://localhost:2414/user/index1/+f/636/95eef6ac86c76/delete_me-0.2.dev2-py2.py3-none-any.whl
+     * delete_me 0.2.dev2 on user/index1
+     * delete_me 0.2.dev2 on user/index2
     Enter "yes" to confirm: yes
     >
 

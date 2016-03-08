@@ -27,7 +27,11 @@ class Package(object):
         self.is_dev_package = '.dev' in self.version
 
     def __str__(self):
-        return self.url
+        return '{package} {version} on {index}'.format(
+            package=self.name,
+            version=self.version,
+            index=self.index,
+        )
 
 
 def _list_packages_on_current_index(client, package_spec, only_dev):

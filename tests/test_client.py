@@ -11,15 +11,19 @@ from devpi_cleaner.client import list_packages, remove_packages, Package
 
 class ListTests(unittest.TestCase):
     def test_list_packages(self):
-        expected_packages = [
+        devpi_listing = [
             'http://dummy-server/user/eins/+f/70e/3bc67b3194143/dummy-1.0.tar.gz',
             'http://dummy-server/user/zwei/+f/70e/3bc67b3194144/dummy-2.0.tar.gz',
+        ]
+        expected_packages = [
+            'dummy 1.0 on user/eins',
+            'dummy 2.0 on user/zwei',
         ]
 
         devpi_client = Mock(spec=DevpiCommandWrapper)
         devpi_client.user = 'user'
         devpi_client.list_indices.return_value = ['eins', 'zwei']
-        devpi_client.list.side_effect = [[package] for package in expected_packages]
+        devpi_client.list.side_effect = [[package] for package in devpi_listing]
         devpi_client.url = 'http://dummy-server/user'
 
         actual_packages = list_packages(devpi_client, 'user', 'dummy', only_dev=False)
@@ -37,8 +41,8 @@ class ListTests(unittest.TestCase):
             'http://localhost:2414/other_user/index1/+f/313/8642d2b43a764/delete_me-0.2.tar.gz'
         ]
         expected_packages = [
-            'http://localhost:2414/user/index2/+f/70e/3bc67b3194143/delete_me-0.2-py2.py3-none-any.whl',
-            'http://localhost:2414/user/index2/+f/313/8642d2b43a764/delete_me-0.2.tar.gz',
+            'delete_me 0.2 on user/index2',
+            'delete_me 0.2 on user/index2',
         ]
 
         devpi_client = Mock(spec=DevpiCommandWrapper)
@@ -64,8 +68,8 @@ class ListTests(unittest.TestCase):
             'http://localhost:2414/user/index1/+f/45b/301745c6d8bbf/delete_me-0.1.tar.gz',
         ]
         expected_packages = [
-            'http://localhost:2414/user/index1/+f/842/84d1283874110/delete_me-0.2.dev2.tar.gz',
-            'http://localhost:2414/user/index1/+f/636/95eef6ac86c76/delete_me-0.2.dev2-py2.py3-none-any.whl',
+            'delete_me 0.2.dev2 on user/index1',
+            'delete_me 0.2.dev2 on user/index1',
         ]
 
         devpi_client = Mock(spec=DevpiCommandWrapper)
@@ -78,15 +82,19 @@ class ListTests(unittest.TestCase):
         self.assertEqual(expected_packages, [str(package) for package in actual_packages])
 
     def test_list_packages_on_https(self):
-        expected_packages = [
+        devpi_listing = [
             'https://dummy-server/user/eins/+f/70e/3bc67b3194143/dummy-1.0.tar.gz',
             'https://dummy-server/user/zwei/+f/70e/3bc67b3194144/dummy-2.0.tar.gz',
+        ]
+        expected_packages = [
+            'dummy 1.0 on user/eins',
+            'dummy 2.0 on user/zwei',
         ]
 
         devpi_client = Mock(spec=DevpiCommandWrapper)
         devpi_client.user = 'user'
         devpi_client.list_indices.return_value = ['eins', 'zwei']
-        devpi_client.list.side_effect = [[package] for package in expected_packages]
+        devpi_client.list.side_effect = [[package] for package in devpi_listing]
         devpi_client.url = 'https://dummy-server/user'
 
         actual_packages = list_packages(devpi_client, 'user', 'dummy', only_dev=False)
@@ -145,7 +153,7 @@ class PackageTests(unittest.TestCase):
     def test_string(self):
         http_url = 'http://localhost:2414/user/index1/+f/45b/301745c6d8bbf/delete_me-0.1.tar.gz'
         package = Package(http_url)
-        self.assertEquals(http_url, str(package))
+        self.assertEquals('delete_me 0.1 on user/index1', str(package))
 
     def test_from_https_url(self):
         package = Package('https://localhost:2414/user/index1/+f/636/95eef6ac86c76/delete_me-0.2.dev2-py2.py3-none-any.whl')

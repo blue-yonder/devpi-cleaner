@@ -19,8 +19,7 @@ def _remove_distribution_type_from_version(version):
 
 class Package(object):
     def __init__(self, package_url):
-        self.url = package_url
-        parts = self.url.rsplit('/', 6)  # example URL http://localhost:2414/user/index1/+f/45b/301745c6d8bbf/delete_me-0.1.tar.gz
+        parts = package_url.rsplit('/', 6)  # example URL http://localhost:2414/user/index1/+f/45b/301745c6d8bbf/delete_me-0.1.tar.gz
         self.index = parts[1] + '/' + parts[2]
         self.name, version_plus_distribution_type = parts[6].split('-', 1)
         self.version = _remove_distribution_type_from_version(version_plus_distribution_type)
@@ -34,22 +33,24 @@ class Package(object):
         )
 
 
-def _list_packages_on_current_index(client, package_spec, only_dev):
+def _list_packages_on_index(client, index, package_spec, only_dev):
     def selector(package):
-        return package.url.startswith(client.url) and (not only_dev or package.is_dev_package)
+        return package.index == index and (not only_dev or package.is_dev_package)
+
+    client.use(index)
 
     all_packages = [
         Package(package_url) for package_url in client.list('--all', package_spec)
         if package_url.startswith('http://') or package_url.startswith('https://')
     ]
+
     return filter(selector, all_packages)
 
 
 def list_packages(client, user, package_spec, only_dev):
     result = []
     for index in client.list_indices(user=user):
-        client.use(index)
-        result.extend(_list_packages_on_current_index(client, package_spec, only_dev))
+        result.extend(_list_packages_on_index(client, index, package_spec, only_dev))
     return result
 
 

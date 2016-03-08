@@ -22,7 +22,7 @@ class ListTests(unittest.TestCase):
 
         devpi_client = Mock(spec=DevpiCommandWrapper)
         devpi_client.user = 'user'
-        devpi_client.list_indices.return_value = ['eins', 'zwei']
+        devpi_client.list_indices.return_value = ['user/eins', 'user/zwei']
         devpi_client.list.side_effect = [[package] for package in devpi_listing]
         devpi_client.url = 'http://dummy-server/user'
 
@@ -48,7 +48,7 @@ class ListTests(unittest.TestCase):
         devpi_client = Mock(spec=DevpiCommandWrapper)
         devpi_client.user = 'user'
         devpi_client.url = 'http://localhost:2414/user/index2'
-        devpi_client.list_indices.return_value = ['index2']
+        devpi_client.list_indices.return_value = ['user/index2']
         devpi_client.list.return_value = devpi_listing
 
         actual_packages = list_packages(devpi_client, 'user', 'delete_me', only_dev=False)
@@ -75,7 +75,7 @@ class ListTests(unittest.TestCase):
         devpi_client = Mock(spec=DevpiCommandWrapper)
         devpi_client.user = 'user'
         devpi_client.url = 'http://localhost:2414/user/index1'
-        devpi_client.list_indices.return_value = ['index1']
+        devpi_client.list_indices.return_value = ['user/index1']
         devpi_client.list.return_value = devpi_listing
 
         actual_packages = list_packages(devpi_client, 'user', 'delete_me', only_dev=True)
@@ -93,7 +93,7 @@ class ListTests(unittest.TestCase):
 
         devpi_client = Mock(spec=DevpiCommandWrapper)
         devpi_client.user = 'user'
-        devpi_client.list_indices.return_value = ['eins', 'zwei']
+        devpi_client.list_indices.return_value = ['user/eins', 'user/zwei']
         devpi_client.list.side_effect = [[package] for package in devpi_listing]
         devpi_client.url = 'https://dummy-server/user'
 

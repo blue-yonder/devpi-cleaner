@@ -42,7 +42,6 @@ class ListTests(unittest.TestCase):
         ]
         expected_packages = [
             'delete_me 0.2 on user/index2',
-            'delete_me 0.2 on user/index2',
         ]
 
         devpi_client = Mock(spec=DevpiCommandWrapper)
@@ -68,7 +67,6 @@ class ListTests(unittest.TestCase):
             'http://localhost:2414/user/index1/+f/45b/301745c6d8bbf/delete_me-0.1.tar.gz',
         ]
         expected_packages = [
-            'delete_me 0.2.dev2 on user/index1',
             'delete_me 0.2.dev2 on user/index1',
         ]
 
@@ -102,18 +100,6 @@ class ListTests(unittest.TestCase):
 
 
 class RemovalTests(unittest.TestCase):
-    def test_package_versions_not_removed_twice(self):
-        packages = [
-            Package('http://localhost:2414/user/index2/+f/70e/3bc67b3194143/delete_me-0.2-py2.py3-none-any.whl'),
-            Package('http://localhost:2414/user/index2/+f/313/8642d2b43a764/delete_me-0.2.tar.gz'),
-        ]
-
-        devpi_client = Mock(spec=DevpiCommandWrapper)
-        devpi_client.modify_index.return_value = 'volatile=True'
-        remove_packages(devpi_client, packages, False)
-
-        devpi_client.remove.assert_called_once_with('delete_me==0.2')
-
     def test_same_package_on_separate_indices(self):
         packages = [
             Package('http://localhost:2414/user/index1/+f/313/8642d2b43a764/delete_me-0.2.tar.gz'),

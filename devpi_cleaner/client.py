@@ -51,7 +51,7 @@ def list_packages(client, user, package_spec, only_dev):
     result = []
     for index in client.list_indices(user=user):
         result.extend(_list_packages_on_index(client, index, package_spec, only_dev))
-    return result
+    return _filter_duplicates(result)
 
 
 def _filter_duplicates(packages):
@@ -61,7 +61,7 @@ def _filter_duplicates(packages):
 
 
 def remove_packages(client, packages, force):
-    for package in _filter_duplicates(packages):
+    for package in packages:
         client.use(package.index)
         with volatile_index(client, package.index, force):
             client.remove('{name}=={version}'.format(name=package.name, version=package.version))

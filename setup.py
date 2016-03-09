@@ -24,6 +24,7 @@ setup(
         'devpi-plumber>=0.2.5',
         'setuptools>=0.8',
         'six',
+        'progressbar2',
     ],
     setup_requires=[
         'nose',

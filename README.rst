@@ -76,6 +76,9 @@ Commandline Usage
       --login LOGIN         The user name to user for authentication. Defaults to
                             the user of the indices to operate on.
 
+    The arguments --dev-only and --version-filter can be combined. In this case
+    only packages passing both filters will be removed.
+
 License
 =======
 

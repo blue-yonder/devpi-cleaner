@@ -13,7 +13,10 @@ from .client import list_packages, remove_packages
 
 
 def main(args=None):
-    parser = argparse.ArgumentParser(description='A utility to batch-remove packages from a Devpi server.')
+    parser = argparse.ArgumentParser(
+        description='A utility to batch-remove packages from a Devpi server.',
+        epilog='The arguments --dev-only and --version-filter can be combined. In this case only packages passing both filters will be removed.',
+    )
     parser.add_argument('server', help='The devpi server to operate on.')
     parser.add_argument('index_spec', metavar='user[/index]', help='The index from which to remove the packages. If only the user part is specified, all indices of that user will be cleaned.')
     parser.add_argument('package_specification', help='The specification of the package version(s) to remove.')

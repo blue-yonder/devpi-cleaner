@@ -12,6 +12,7 @@ Version 0.2.0
 * Display a progress bar while performing the removal if multiple packages or package versions are selected.
 * Python 3.2 is no longer supported
 * Python 3.5 is now officially supported
+* PyPy is now officially supported
 
 Version 0.1.1
 =============

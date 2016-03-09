@@ -59,9 +59,17 @@ def _list_packages_on_index(client, index, package_spec, only_dev):
     return filter(selector, all_packages)
 
 
-def list_packages(client, user, package_spec, only_dev):
+def _get_indices(client, index_spec):
+    spec_parts = index_spec.split('/')
+    if len(spec_parts) > 1:
+        return [index_spec, ]
+    else:
+        return client.list_indices(user=index_spec)
+
+
+def list_packages(client, index_spec, package_spec, only_dev):
     packages = set()
-    for index in client.list_indices(user=user):
+    for index in _get_indices(client, index_spec):
         packages.update(_list_packages_on_index(client, index, package_spec, only_dev))
     return packages
 

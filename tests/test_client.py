@@ -29,6 +29,24 @@ class ListTests(unittest.TestCase):
         actual_packages = list_packages(devpi_client, 'user', 'dummy', only_dev=False)
         self.assertSetEqual(expected_packages, {str(package) for package in actual_packages})
 
+    def test_list_packages_on_specified_index(self):
+        devpi_listing = [
+            'http://dummy-server/user/eins/+f/70e/3bc67b3194143/dummy-1.0.tar.gz',
+            'http://dummy-server/user/zwei/+f/70e/3bc67b3194144/dummy-2.0.tar.gz',
+        ]
+        expected_packages = {
+            'dummy 1.0 on user/eins',
+        }
+
+        devpi_client = Mock(spec=DevpiCommandWrapper)
+        devpi_client.user = 'user'
+        devpi_client.list_indices.return_value = ['user/eins', 'user/zwei']
+        devpi_client.list.side_effect = [[package] for package in devpi_listing]
+        devpi_client.url = 'http://dummy-server/user'
+
+        actual_packages = list_packages(devpi_client, 'user/eins', 'dummy', only_dev=False)
+        self.assertSetEqual(expected_packages, {str(package) for package in actual_packages})
+
     def test_list_packages_filters(self):
         """
         The package list must be stripped from inherited packages and [*redirected] messages

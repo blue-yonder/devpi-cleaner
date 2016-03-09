@@ -52,6 +52,7 @@ class IntegrationTests(unittest.TestCase):
 
             with mock.patch('getpass.getpass') as getpass:
                 getpass.return_value = TEST_PASSWORD
+                # noinspection PyCallingNonCallable
                 with mock.patch('sys.stdin', six.StringIO('yes\n')):
                     main([client.server_url, TEST_USER, 'delete_me==0.2'])
 
@@ -65,6 +66,7 @@ class IntegrationTests(unittest.TestCase):
         with TestServer(users=TEST_USERS, indices=TEST_INDICES) as client:
             _bootstrap_test_user(client)
 
+            # noinspection PyCallingNonCallable
             with mock.patch('sys.stdin', six.StringIO('\n')):  # press enter on verification prompt
                 main([client.server_url, TEST_USER, 'delete_me==0.2', '--password', TEST_PASSWORD])
 

@@ -7,6 +7,7 @@ import sys
 from devpi_plumber.client import DevpiClient, DevpiClientError
 from six import print_
 from six.moves import input
+from progressbar import ProgressBar
 
 from .client import list_packages, remove_packages, volatile_index
 
@@ -41,6 +42,10 @@ def main(args=None):
                 if confirmation != 'yes':
                     print('Aborting...')
                     return
+
+            if len(packages) > 1:
+                # Make iteration over the packages display a progress bar
+                packages = ProgressBar()(packages)
 
             remove_packages(client, packages, args.force)
 

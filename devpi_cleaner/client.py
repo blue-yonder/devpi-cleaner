@@ -23,7 +23,6 @@ class Package(object):
         self.index = parts[1] + '/' + parts[2]
         self.name, version_plus_distribution_type = parts[6].split('-', 1)
         self.version = _remove_distribution_type_from_version(version_plus_distribution_type)
-        self.is_dev_package = '.dev' in self.version
 
     def __str__(self):
         return '{package} {version} on {index}'.format(
@@ -31,6 +30,10 @@ class Package(object):
             version=self.version,
             index=self.index,
         )
+
+    @property
+    def is_dev_package(self):
+        return '.dev' in self.version
 
 
 def _list_packages_on_index(client, index, package_spec, only_dev):

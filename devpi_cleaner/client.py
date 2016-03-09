@@ -35,6 +35,15 @@ class Package(object):
     def is_dev_package(self):
         return '.dev' in self.version
 
+    def __eq__(self, other):
+        return self.index == other.index and self.name == other.name and self.version == other.version
+
+    def __ne__(self, other):
+        return not (self == other)
+
+    def __hash__(self):
+        return hash((self.index, self.name, self.version))
+
 
 def _list_packages_on_index(client, index, package_spec, only_dev):
     def selector(package):
@@ -42,25 +51,19 @@ def _list_packages_on_index(client, index, package_spec, only_dev):
 
     client.use(index)
 
-    all_packages = [
+    all_packages = {
         Package(package_url) for package_url in client.list('--all', package_spec)
         if package_url.startswith('http://') or package_url.startswith('https://')
-    ]
+    }
 
     return filter(selector, all_packages)
 
 
 def list_packages(client, user, package_spec, only_dev):
-    result = []
+    packages = set()
     for index in client.list_indices(user=user):
-        result.extend(_list_packages_on_index(client, index, package_spec, only_dev))
-    return _filter_duplicates(result)
-
-
-def _filter_duplicates(packages):
-    return {
-        (package.index, package.name, package.version): package for package in packages
-    }.values()
+        packages.update(_list_packages_on_index(client, index, package_spec, only_dev))
+    return packages
 
 
 def remove_packages(client, packages, force):

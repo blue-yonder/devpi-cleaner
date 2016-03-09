@@ -147,3 +147,27 @@ class PackageTests(unittest.TestCase):
         self.assertEquals('delete_me', package.name)
         self.assertEquals('0.2.dev2', package.version)
         self.assertTrue(package.is_dev_package)
+
+    def test_comparison(self):
+        package_v1_sdist = Package('http://localhost:2414/user/index1/+f/45b/301745c6d8bbf/delete_me-0.1.tar.gz')
+        package_v1_wheel = Package('https://localhost:2414/user/index1/+f/636/95eef6ac86c76/delete_me-0.1-py2.py3-none-any.whl')
+        package_v2_wheel = Package('https://localhost:2414/user/index1/+f/636/95eef6ac86c76/delete_me-0.2-py2.py3-none-any.whl')
+        other_package_v1_sdist = Package('https://dummy-server/user/eins/+f/70e/3bc67b3194143/dummy-0.1.tar.gz')
+
+        self.assertEquals(package_v1_sdist, package_v1_sdist)
+        self.assertEquals(package_v1_sdist, package_v1_wheel)
+        self.assertNotEquals(package_v1_wheel, package_v2_wheel)
+        self.assertNotEquals(package_v1_sdist, other_package_v1_sdist)
+
+    def test_hash(self):
+        package_v1_sdist = Package('http://localhost:2414/user/index1/+f/45b/301745c6d8bbf/delete_me-0.1.tar.gz')
+        package_v1_wheel = Package(
+            'https://localhost:2414/user/index1/+f/636/95eef6ac86c76/delete_me-0.1-py2.py3-none-any.whl')
+        package_v2_wheel = Package(
+            'https://localhost:2414/user/index1/+f/636/95eef6ac86c76/delete_me-0.2-py2.py3-none-any.whl')
+        other_package_v1_sdist = Package('https://dummy-server/user/eins/+f/70e/3bc67b3194143/dummy-0.1.tar.gz')
+
+        self.assertEquals(hash(package_v1_sdist), hash(package_v1_sdist))
+        self.assertEquals(hash(package_v1_sdist), hash(package_v1_wheel))
+        self.assertNotEquals(hash(package_v1_wheel), hash(package_v2_wheel))
+        self.assertNotEquals(hash(package_v1_sdist), hash(other_package_v1_sdist))

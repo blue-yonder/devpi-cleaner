@@ -219,5 +219,8 @@ README.html
 CHANGELOG.html
 
 tests/artefacts/delete_me_package/build
+!tests/artefacts/delete_me_package/dist
+!tests/artefacts/delete_me_package/dist/*.whl
+!tests/artefacts/delete_me_package/dist/*.tar.gz
 
 venv

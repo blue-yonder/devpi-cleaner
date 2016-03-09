@@ -42,7 +42,7 @@ class IntegrationTests(unittest.TestCase):
             indices = client.list_indices(user=TEST_USER)
             for index in indices:
                 client.use(index)
-                for version in ['0.1', '0.2.dev2', '0.2a1', '0.2']:
+                for version in ['0.1', '0.2.dev2', '0.2a1', '0.2', '0.2.post1']:
                     actual_packages = client.list('delete_me=={}'.format(version))
                     for dist in ['.tar.gz', '-py2.py3-none-any.whl']:
                         expected = 'delete_me-{version}{dist}'.format(version=version, dist=dist)
@@ -90,6 +90,7 @@ class IntegrationTests(unittest.TestCase):
                 self.assertNotEqual(0, len(_filter_redirect_entry(client.list('delete_me==0.1'))))
                 self.assertNotEqual(0, len(_filter_redirect_entry(client.list('delete_me==0.2a1'))))
                 self.assertNotEqual(0, len(_filter_redirect_entry(client.list('delete_me==0.2'))))
+                self.assertNotEqual(0, len(_filter_redirect_entry(client.list('delete_me==0.2.post1'))))
 
     def test_fails_on_non_volatile_by_default(self):
         with TestServer(users=TEST_USERS, indices=TEST_INDICES) as client:
@@ -157,3 +158,18 @@ class IntegrationTests(unittest.TestCase):
             self.assertListEqual([], [
                 package for package in _filter_redirect_entry(client.list('delete_me==0.2')) if 'index2' in package
             ])
+
+    def test_regex_version_filter(self):
+        with TestServer(users=TEST_USERS, indices=TEST_INDICES) as client:
+            _bootstrap_test_user(client)
+
+            main([client.server_url, TEST_USER, 'delete_me', '--version-filter', r'\.post\d+', '--batch', '--password', TEST_PASSWORD])
+
+            indices = client.list_indices(user=TEST_USER)
+            for index in indices:
+                client.use(index)
+                self.assertListEqual([], _filter_redirect_entry(client.list('delete_me==0.2.post1')))
+                self.assertNotEqual(0, len(_filter_redirect_entry(client.list('delete_me==0.2.dev2'))))
+                self.assertNotEqual(0, len(_filter_redirect_entry(client.list('delete_me==0.1'))))
+                self.assertNotEqual(0, len(_filter_redirect_entry(client.list('delete_me==0.2a1'))))
+                self.assertNotEqual(0, len(_filter_redirect_entry(client.list('delete_me==0.2'))))

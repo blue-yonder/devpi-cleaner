@@ -24,6 +24,7 @@ Rationale
 Devpi cleaner wraps the original `devpi remove` command. It provides the following extensions:
 
 * Conditionally limit removal to development packages.
+* Conditionally limit removal to versions matching a given regular expression.
 * Temporarily switch non-volatile indices to volatile.
 * Apply a remove operation to all indices of a user.
 
@@ -47,9 +48,9 @@ Commandline Usage
 =================
 ::
 
-    usage: devpi-cleaner [-h] [--batch] [--dev-only] [--force]
-                         [--password PASSWORD] [--login LOGIN]
-                         server user[/index] package_specification
+    usage: devpi-cleaner [-h] [--batch] [--dev-only] [--version-filter REGEX]
+                     [--force] [--password PASSWORD] [--login LOGIN]
+                     server user[/index] package_specification
 
     A utility to batch-remove packages from a Devpi server.
 
@@ -66,6 +67,9 @@ Commandline Usage
       --batch               Assume yes on confirmation questions.
       --dev-only            Remove only development versions as specified by PEP
                             440.
+      --version-filter REGEX
+                            Remove only versions in which the given regular
+                            expression can be found.
       --force               Temporarily make indices volatile to enable package
                             removal.
       --password PASSWORD   The password with which to authenticate.

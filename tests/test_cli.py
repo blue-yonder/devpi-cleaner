@@ -23,6 +23,5 @@ class CLITests(unittest.TestCase):
         output = _run('--help')
         self.assertIn('usage', output)
 
-
 if __name__ == '__main__':
     unittest.main()

@@ -10,6 +10,7 @@ Version 0.2.0
 * Prompt the user for a list of package versions and the indices from which to delete them. Previously the user was
   shown a list of package URLs. However, `devpi_cleaner` will actually delete by package version, not by uploaded file.
 * Display a progress bar while performing the removal if multiple packages or package versions are selected.
+* Python 3.2 is no longer supported
 
 Version 0.1.1
 =============

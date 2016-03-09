@@ -5,6 +5,6 @@ progressbar2==3.6.2
 
 setuptools_scm
 
-coverage<4
+coverage
 mock
 nose

@@ -1,5 +1,7 @@
 # coding=utf-8
 
+import re
+
 from devpi_plumber.client import volatile_index
 
 _TAR_GZ_END = '.tar.gz'
@@ -45,9 +47,16 @@ class Package(object):
         return hash((self.index, self.name, self.version))
 
 
-def _list_packages_on_index(client, index, package_spec, only_dev):
+def _list_packages_on_index(client, index, package_spec, only_dev, version_filter):
+    if version_filter is not None:
+        version_filter = re.compile(version_filter)
+
     def selector(package):
-        return package.index == index and (not only_dev or package.is_dev_package)
+        return (
+            package.index == index and
+            (not only_dev or package.is_dev_package) and
+            (version_filter is None or version_filter.search(package.version))
+        )
 
     client.use(index)
 
@@ -67,10 +76,10 @@ def _get_indices(client, index_spec):
         return client.list_indices(user=index_spec)
 
 
-def list_packages(client, index_spec, package_spec, only_dev):
+def list_packages(client, index_spec, package_spec, only_dev, version_filter):
     packages = set()
     for index in _get_indices(client, index_spec):
-        packages.update(_list_packages_on_index(client, index, package_spec, only_dev))
+        packages.update(_list_packages_on_index(client, index, package_spec, only_dev, version_filter))
     return packages
 
 

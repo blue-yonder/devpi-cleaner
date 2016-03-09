@@ -31,7 +31,7 @@ def main(args=None):
 
     try:
         with DevpiClient(args.server, login_user, password) as client:
-            packages = list_packages(client, args.index_spec, args.package_specification, args.dev_only)
+            packages = list_packages(client, args.index_spec, args.package_specification, args.dev_only, None)
 
             print('Packages to be deleted: ')
             for package in packages:

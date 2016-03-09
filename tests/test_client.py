@@ -26,7 +26,7 @@ class ListTests(unittest.TestCase):
         devpi_client.list.side_effect = [[package] for package in devpi_listing]
         devpi_client.url = 'http://dummy-server/user'
 
-        actual_packages = list_packages(devpi_client, 'user', 'dummy', only_dev=False)
+        actual_packages = list_packages(devpi_client, 'user', 'dummy', only_dev=False, version_filter=None)
         self.assertSetEqual(expected_packages, {str(package) for package in actual_packages})
 
     def test_list_packages_on_specified_index(self):
@@ -44,7 +44,7 @@ class ListTests(unittest.TestCase):
         devpi_client.list.side_effect = [[package] for package in devpi_listing]
         devpi_client.url = 'http://dummy-server/user'
 
-        actual_packages = list_packages(devpi_client, 'user/eins', 'dummy', only_dev=False)
+        actual_packages = list_packages(devpi_client, 'user/eins', 'dummy', only_dev=False, version_filter=None)
         self.assertSetEqual(expected_packages, {str(package) for package in actual_packages})
 
     def test_list_packages_filters(self):
@@ -68,7 +68,7 @@ class ListTests(unittest.TestCase):
         devpi_client.list_indices.return_value = ['user/index2']
         devpi_client.list.return_value = devpi_listing
 
-        actual_packages = list_packages(devpi_client, 'user', 'delete_me', only_dev=False)
+        actual_packages = list_packages(devpi_client, 'user', 'delete_me', only_dev=False, version_filter=None)
         self.assertSetEqual(expected_packages, {str(package) for package in actual_packages})
 
         devpi_client.list.assert_called_once_with('--all', 'delete_me')  # `--all` is important as otherwise not all packages will be returned
@@ -94,7 +94,31 @@ class ListTests(unittest.TestCase):
         devpi_client.list_indices.return_value = ['user/index1']
         devpi_client.list.return_value = devpi_listing
 
-        actual_packages = list_packages(devpi_client, 'user', 'delete_me', only_dev=True)
+        actual_packages = list_packages(devpi_client, 'user', 'delete_me', only_dev=True, version_filter=None)
+        self.assertSetEqual(expected_packages, {str(package) for package in actual_packages})
+
+    def test_list_only_packages_matching_version_filter(self):
+        devpi_listing = [
+            'http://localhost:2414/user/index1/+f/70e/3bc67b3194143/delete_me-0.2-py2.py3-none-any.whl',
+            'http://localhost:2414/user/index1/+f/313/8642d2b43a764/delete_me-0.2.tar.gz',
+            'http://localhost:2414/user/index1/+f/bab/f9b37c9d0d192/delete_me-0.2a1.tar.gz',
+            'http://localhost:2414/user/index1/+f/e8e/d9cfe14d2ef65/delete_me-0.2a1-py2.py3-none-any.whl',
+            'http://localhost:2414/user/index1/+f/842/84d1283874110/delete_me-0.2.dev2.tar.gz',
+            'http://localhost:2414/user/index1/+f/636/95eef6ac86c76/delete_me-0.2.dev2-py2.py3-none-any.whl',
+            'http://localhost:2414/user/index1/+f/c22/cdec16d5ddc3a/delete_me-0.1-py2.py3-none-any.whl',
+            'http://localhost:2414/user/index1/+f/45b/301745c6d8bbf/delete_me-0.1.tar.gz',
+        ]
+        expected_packages = {
+            'delete_me 0.2a1 on user/index1',
+        }
+
+        devpi_client = Mock(spec=DevpiCommandWrapper)
+        devpi_client.user = 'user'
+        devpi_client.url = 'http://localhost:2414/user/index1'
+        devpi_client.list_indices.return_value = ['user/index1']
+        devpi_client.list.return_value = devpi_listing
+
+        actual_packages = list_packages(devpi_client, 'user', 'delete_me', only_dev=False, version_filter=r'a\d+')
         self.assertSetEqual(expected_packages, {str(package) for package in actual_packages})
 
     def test_list_packages_on_https(self):
@@ -113,7 +137,7 @@ class ListTests(unittest.TestCase):
         devpi_client.list.side_effect = [[package] for package in devpi_listing]
         devpi_client.url = 'https://dummy-server/user'
 
-        actual_packages = list_packages(devpi_client, 'user', 'dummy', only_dev=False)
+        actual_packages = list_packages(devpi_client, 'user', 'dummy', only_dev=False, version_filter=None)
         self.assertSetEqual(expected_packages, {str(package) for package in actual_packages})
 
 

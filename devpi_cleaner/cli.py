@@ -9,7 +9,7 @@ from six import print_
 from six.moves import input
 from progressbar import ProgressBar
 
-from .client import list_packages, remove_packages, volatile_index
+from .client import list_packages, remove_packages
 
 
 def main(args=None):

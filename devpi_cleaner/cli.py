@@ -13,7 +13,7 @@ from .client import list_packages, remove_packages, volatile_index
 
 
 def main(args=None):
-    parser = argparse.ArgumentParser(description='A utility to clean packages from the Devpi server used at Blue Yonder.')
+    parser = argparse.ArgumentParser(description='A utility to batch-remove packages from a Devpi server.')
     parser.add_argument('server', help='The devpi server to operate on.')
     parser.add_argument('user', help='The devpi server of which to clean the indices.')
     parser.add_argument('package_specification', help='The specification of the package version(s) to remove.')

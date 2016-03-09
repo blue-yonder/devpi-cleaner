@@ -51,7 +51,7 @@ Commandline Usage
                          [--password PASSWORD]
                          server user package_specification
 
-    A utility to clean packages from the Devpi server used at Blue Yonder.
+    A utility to batch-remove packages from a Devpi server..
 
     positional arguments:
       server                The devpi server to operate on.

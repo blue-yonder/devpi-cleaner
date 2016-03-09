@@ -48,14 +48,16 @@ Commandline Usage
 ::
 
     usage: devpi-cleaner [-h] [--batch] [--dev-only] [--force]
-                         [--password PASSWORD]
-                         server user package_specification
+                         [--password PASSWORD] [--login LOGIN]
+                         server user[/index] package_specification
 
-    A utility to batch-remove packages from a Devpi server..
+    A utility to batch-remove packages from a Devpi server.
 
     positional arguments:
       server                The devpi server to operate on.
-      user                  The devpi server of which to clean the indices.
+      user[/index]          The index from which to remove the packages. If only
+                            the user part is specified, all indices of that user
+                            will be cleaned.
       package_specification
                             The specification of the package version(s) to remove.
 
@@ -67,6 +69,8 @@ Commandline Usage
       --force               Temporarily make indices volatile to enable package
                             removal.
       --password PASSWORD   The password with which to authenticate.
+      --login LOGIN         The user name to user for authentication. Defaults to
+                            the user of the indices to operate on.
 
 License
 =======

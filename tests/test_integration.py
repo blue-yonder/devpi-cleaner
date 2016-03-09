@@ -15,8 +15,10 @@ TEST_PASSWORD = 'password'
 TEST_USERS = {TEST_USER: {'password': TEST_PASSWORD}}
 
 TEST_INDICES = collections.OrderedDict()
-TEST_INDICES[TEST_USER + '/index1'] = {'bases': ''}
-TEST_INDICES[TEST_USER + '/index2'] = {'bases': TEST_USER + '/index1'}
+TEST_INDEX_ONE = TEST_USER + '/index1'
+TEST_INDICES[TEST_INDEX_ONE] = {'bases': ''}
+TEST_INDEX_TWO = TEST_USER + '/index2'
+TEST_INDICES[TEST_INDEX_TWO] = {'bases': TEST_INDEX_ONE}
 
 
 def _bootstrap_test_user(client):
@@ -142,3 +144,16 @@ class IntegrationTests(unittest.TestCase):
             for index in indices:
                 client.use(index)
                 self.assertListEqual([], _filter_redirect_entry(client.list('delete_me==0.2')))
+
+    def test_removes_on_specified_index(self):
+        with TestServer(users=TEST_USERS, indices=TEST_INDICES) as client:
+            _bootstrap_test_user(client)
+
+            main([client.server_url, TEST_INDEX_TWO, 'delete_me==0.2', '--password', TEST_PASSWORD, '--batch'])
+
+            client.use(TEST_INDEX_ONE)
+            self.assertNotEqual(0, len(_filter_redirect_entry(client.list('delete_me==0.2'))))
+            client.use(TEST_INDEX_TWO)
+            self.assertListEqual([], [
+                package for package in _filter_redirect_entry(client.list('delete_me==0.2')) if 'index2' in package
+            ])

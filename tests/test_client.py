@@ -167,6 +167,9 @@ class PackageTests(unittest.TestCase):
         zip_package = Package('http://localhost:2414/user/index1/+f/45b/301745c6d8bbe/delete_me-0.1.zip')
         self.assertEquals('0.1', zip_package.version)
 
+        with_dashes = Package('http://localhost:2414/user/index1/+f/45b/301745c6d7bbf/with-dashes-0.1.tar.gz')
+        self.assertEquals('0.1', with_dashes.version)
+
     def test_wheel(self):
         package = Package('http://localhost:2414/user/index1/+f/636/95eef6ac86c76/delete_me-0.2.dev2-py2.py3-none-any.whl')
         self.assertEquals('user/index1', package.index)

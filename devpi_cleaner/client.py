@@ -5,26 +5,26 @@ import re
 from devpi_plumber.client import volatile_index
 
 _TAR_GZ_END = '.tar.gz'
+_TAR_BZ2_END = '.tar.bz2'
 _ZIP_END = '.zip'
 
 
-def _remove_distribution_type_from_version(version):
-    if version.endswith(_TAR_GZ_END):
-        return version[:-len(_TAR_GZ_END)]
-    elif version.endswith(_ZIP_END):
-        return version[:-len(_ZIP_END)]
-    elif version.endswith('.whl'):
-        return version.split('-')[0]
+def _extract_name_and_version(filename):
+    if filename.endswith('.whl'):
+        return filename.split('-')[:2]
     else:
-        raise NotImplementedError('Unknown package type. Cannot extract version from {}.'.format(version))
+        name, version_and_ext = filename.rsplit('-', 1)
+        for extension in (_TAR_GZ_END, _TAR_BZ2_END, _ZIP_END):
+            if version_and_ext.endswith(extension):
+                return name, version_and_ext[:-len(extension)]
+        raise NotImplementedError('Unknown package type. Cannot extract version from {}.'.format(filename))
 
 
 class Package(object):
     def __init__(self, package_url):
         parts = package_url.rsplit('/', 6)  # example URL http://localhost:2414/user/index1/+f/45b/301745c6d8bbf/delete_me-0.1.tar.gz
         self.index = parts[1] + '/' + parts[2]
-        self.name, version_plus_distribution_type = parts[6].split('-', 1)
-        self.version = _remove_distribution_type_from_version(version_plus_distribution_type)
+        self.name, self.version = _extract_name_and_version(parts[-1])
 
     def __str__(self):
         return '{package} {version} on {index}'.format(

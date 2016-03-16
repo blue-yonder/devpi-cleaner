@@ -38,10 +38,8 @@ def humanize_binary(value):
 
 
 def extract_name_and_version(filename):
-    if filename.endswith('.whl'):
+    if filename.endswith('.whl') or filename.endswith('.egg'):
         return filename.split('-')[:2]
-    elif filename.endswith('.egg'):
-        return filename.rsplit('-', 2)[:2]
     else:
         name, version_and_ext = filename.rsplit('-', 1)
         for extension in (_TAR_GZ_END, _TAR_BZ2_END, _DOC_ZIP_END, _ZIP_END):

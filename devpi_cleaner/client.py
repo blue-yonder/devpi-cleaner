@@ -10,7 +10,7 @@ _ZIP_END = '.zip'
 
 
 def _extract_name_and_version(filename):
-    if filename.endswith('.whl'):
+    if filename.endswith('.whl') or filename.endswith('.egg'):
         return filename.split('-')[:2]
     else:
         name, version_and_ext = filename.rsplit('-', 1)

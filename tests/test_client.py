@@ -170,12 +170,24 @@ class PackageTests(unittest.TestCase):
         with_dashes = Package('http://localhost:2414/user/index1/+f/45b/301745c6d7bbf/with-dashes-0.1.tar.gz')
         self.assertEquals('0.1', with_dashes.version)
 
+        setuptools_scm_and_old_setuptools = Package('http://localhost:2414/user/index1/+f/25d/bb41cc64d762f/old_setuptools_used-2.1.2.dev7-ng8964316.tar.gz')
+        self.assertEquals('old_setuptools_used', setuptools_scm_and_old_setuptools.name)
+        self.assertEquals('2.1.2.dev7-ng8964316', setuptools_scm_and_old_setuptools.version)
+
+        pyscaffold_and_old_setuptools = Package('http://localhost:2414/user/index1/+f/088/58034d63c6a98/old-setuptools-used-0.1.0.post0.dev4-g5e41942.tar.gz')
+        self.assertEquals('old-setuptools-used', pyscaffold_and_old_setuptools.name)
+        self.assertEquals('0.1.0.post0.dev4-g5e41942', pyscaffold_and_old_setuptools.version)
+
     def test_wheel(self):
         package = Package('http://localhost:2414/user/index1/+f/636/95eef6ac86c76/delete_me-0.2.dev2-py2.py3-none-any.whl')
         self.assertEquals('user/index1', package.index)
         self.assertEquals('delete_me', package.name)
         self.assertEquals('0.2.dev2', package.version)
         self.assertTrue(package.is_dev_package)
+
+        old_setuptools = Package('http://localhost:2414/user/index1/+f/475/732413fe3d8f8/old_setuptools_used-0.6b3.post0.dev27_gf3ac2d5-py2-none-any.whl')
+        self.assertEquals('old_setuptools_used', old_setuptools.name)
+        self.assertEquals('0.6b3.post0.dev27_gf3ac2d5', old_setuptools.version)
 
     def test_egg(self):
         package = Package('http://localhost:2414/user/index1/+f/636/95eef6acadc76/some_egg-0.1.dev4-py2.7.egg')

@@ -14,6 +14,10 @@ def _extract_name_and_version(filename):
         return filename.split('-')[:2]
     else:
         name, version_and_ext = filename.rsplit('-', 1)
+        if not version_and_ext[0].isdigit():  # setuptools-scm on old setuptools separates local part via dash.
+            parts = filename.split('-')
+            name = '-'.join(parts[:-2])
+            version_and_ext = '-'.join(parts[-2:])
         for extension in (_TAR_GZ_END, _TAR_BZ2_END, _ZIP_END):
             if version_and_ext.endswith(extension):
                 return name, version_and_ext[:-len(extension)]

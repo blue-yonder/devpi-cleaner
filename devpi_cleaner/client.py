@@ -65,7 +65,7 @@ def _list_packages_on_index(client, index, package_spec, only_dev, version_filte
     client.use(index)
 
     all_packages = {
-        Package(package_url) for package_url in client.list('--all', package_spec)
+        Package(package_url) for package_url in client.list('--index', index, '--all', package_spec)
         if package_url.startswith('http://') or package_url.startswith('https://')
     }
 
@@ -89,6 +89,5 @@ def list_packages(client, index_spec, package_spec, only_dev, version_filter):
 
 def remove_packages(client, packages, force):
     for package in packages:
-        client.use(package.index)
         with volatile_index(client, package.index, force):
-            client.remove('{name}=={version}'.format(name=package.name, version=package.version))
+            client.remove('--index', package.index, '{name}=={version}'.format(name=package.name, version=package.version))

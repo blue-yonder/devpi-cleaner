@@ -1,3 +1,4 @@
+devpi-client>=2.4.0
 devpi-plumber==0.2.6
 six==1.10.0
 setuptools==20.2.2

@@ -21,6 +21,7 @@ setup(
     license='new BSD',
     packages=find_packages(exclude=['tests']),
     install_requires=[
+        'devpi-client>=2.4.0',  # minimal version to support --index
         'devpi-plumber>=0.2.5',
         'setuptools>=0.8',
         'six',

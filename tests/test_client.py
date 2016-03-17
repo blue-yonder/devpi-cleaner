@@ -71,7 +71,7 @@ class ListTests(unittest.TestCase):
         actual_packages = list_packages(devpi_client, 'user', 'delete_me', only_dev=False, version_filter=None)
         self.assertSetEqual(expected_packages, {str(package) for package in actual_packages})
 
-        devpi_client.list.assert_called_once_with('--all', 'delete_me')  # `--all` is important as otherwise not all packages will be returned
+        devpi_client.list.assert_called_once_with('--index', 'user/index2', '--all', 'delete_me')  # `--all` is important as otherwise not all packages will be returned
 
     def test_list_only_dev_packages(self):
         devpi_listing = [
@@ -152,7 +152,6 @@ class RemovalTests(unittest.TestCase):
         devpi_client.modify_index.return_value = 'volatile=True'
         remove_packages(devpi_client, packages, False)
 
-        devpi_client.remove.assert_called_with('delete_me==0.2')
         self.assertEquals(2, devpi_client.remove.call_count)
 
 

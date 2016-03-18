@@ -9,7 +9,7 @@ from six import print_
 from six.moves import input
 from progressbar import ProgressBar
 
-from .client import list_packages, remove_packages
+from .client import list_packages_by_index, remove_packages
 
 
 def main(args=None):
@@ -35,13 +35,14 @@ def main(args=None):
 
     try:
         with DevpiClient(args.server, login_user, password) as client:
-            packages = list_packages(
+            packages_by_index = list_packages_by_index(
                 client, args.index_spec, args.package_specification, args.dev_only, args.version_filter
             )
 
-            print('Packages to be deleted: ')
-            for package in packages:
-                print(' * {package_url}'.format(package_url=package))
+            for index, packages in packages_by_index.items():
+                print('Packages to be deleted from {}: '.format(index))
+                for package in packages:
+                    print(' * {}'.format(package))
 
             if not args.batch:
                 confirmation = input('Enter "yes" to confirm: ')
@@ -49,11 +50,12 @@ def main(args=None):
                     print('Aborting...')
                     return
 
-            if len(packages) > 1:
-                # Make iteration over the packages display a progress bar
-                packages = ProgressBar()(packages)
-
-            remove_packages(client, packages, args.force)
+            for index, packages in packages_by_index.items():
+                print('Cleaning {}…'.format(index))
+                if len(packages) > 1:
+                    # Make iteration over the packages display a progress bar
+                    packages = ProgressBar()(packages)
+                remove_packages(client, index, packages, args.force)
 
     except DevpiClientError as client_error:
         print_(client_error, file=sys.stderr)

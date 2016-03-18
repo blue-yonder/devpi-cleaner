@@ -69,7 +69,7 @@ def _list_packages_on_index(client, index, package_spec, only_dev, version_filte
         if package_url.startswith('http://') or package_url.startswith('https://')
     }
 
-    return filter(selector, all_packages)
+    return set(filter(selector, all_packages))
 
 
 def _get_indices(client, index_spec):
@@ -80,14 +80,15 @@ def _get_indices(client, index_spec):
         return client.list_indices(user=index_spec)
 
 
-def list_packages(client, index_spec, package_spec, only_dev, version_filter):
-    packages = set()
-    for index in _get_indices(client, index_spec):
-        packages.update(_list_packages_on_index(client, index, package_spec, only_dev, version_filter))
-    return packages
+def list_packages_by_index(client, index_spec, package_spec, only_dev, version_filter):
+    return {
+        index: _list_packages_on_index(client, index, package_spec, only_dev, version_filter)
+        for index in _get_indices(client, index_spec)
+    }
 
 
-def remove_packages(client, packages, force):
-    for package in packages:
-        with volatile_index(client, package.index, force):
+def remove_packages(client, index, packages, force):
+    with volatile_index(client, index, force):
+        for package in packages:
+            assert package.index == index
             client.remove('--index', package.index, '{name}=={version}'.format(name=package.name, version=package.version))

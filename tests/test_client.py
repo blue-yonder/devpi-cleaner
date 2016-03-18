@@ -6,7 +6,7 @@ from mock import Mock
 
 from devpi_plumber.client import DevpiCommandWrapper
 
-from devpi_cleaner.client import list_packages, remove_packages, Package
+from devpi_cleaner.client import list_packages_by_index, remove_packages, Package
 
 
 class ListTests(unittest.TestCase):
@@ -16,8 +16,8 @@ class ListTests(unittest.TestCase):
             'http://dummy-server/user/zwei/+f/70e/3bc67b3194144/dummy-2.0.tar.gz',
         ]
         expected_packages = {
-            'dummy 1.0 on user/eins',
-            'dummy 2.0 on user/zwei',
+            'user/eins': {Package(devpi_listing[0])},
+            'user/zwei': {Package(devpi_listing[1])},
         }
 
         devpi_client = Mock(spec=DevpiCommandWrapper)
@@ -26,8 +26,8 @@ class ListTests(unittest.TestCase):
         devpi_client.list.side_effect = [[package] for package in devpi_listing]
         devpi_client.url = 'http://dummy-server/user'
 
-        actual_packages = list_packages(devpi_client, 'user', 'dummy', only_dev=False, version_filter=None)
-        self.assertSetEqual(expected_packages, {str(package) for package in actual_packages})
+        actual_packages = list_packages_by_index(devpi_client, 'user', 'dummy', only_dev=False, version_filter=None)
+        self.assertDictEqual(expected_packages, actual_packages)
 
     def test_list_packages_on_specified_index(self):
         devpi_listing = [
@@ -35,7 +35,7 @@ class ListTests(unittest.TestCase):
             'http://dummy-server/user/zwei/+f/70e/3bc67b3194144/dummy-2.0.tar.gz',
         ]
         expected_packages = {
-            'dummy 1.0 on user/eins',
+            'user/eins': {Package(devpi_listing[0])},
         }
 
         devpi_client = Mock(spec=DevpiCommandWrapper)
@@ -44,8 +44,8 @@ class ListTests(unittest.TestCase):
         devpi_client.list.side_effect = [[package] for package in devpi_listing]
         devpi_client.url = 'http://dummy-server/user'
 
-        actual_packages = list_packages(devpi_client, 'user/eins', 'dummy', only_dev=False, version_filter=None)
-        self.assertSetEqual(expected_packages, {str(package) for package in actual_packages})
+        actual_packages = list_packages_by_index(devpi_client, 'user/eins', 'dummy', only_dev=False, version_filter=None)
+        self.assertDictEqual(expected_packages, actual_packages)
 
     def test_list_packages_filters(self):
         """
@@ -59,7 +59,7 @@ class ListTests(unittest.TestCase):
             'http://localhost:2414/other_user/index1/+f/313/8642d2b43a764/delete_me-0.2.tar.gz'
         ]
         expected_packages = {
-            'delete_me 0.2 on user/index2',
+            'user/index2': {Package(devpi_listing[1])}
         }
 
         devpi_client = Mock(spec=DevpiCommandWrapper)
@@ -68,8 +68,8 @@ class ListTests(unittest.TestCase):
         devpi_client.list_indices.return_value = ['user/index2']
         devpi_client.list.return_value = devpi_listing
 
-        actual_packages = list_packages(devpi_client, 'user', 'delete_me', only_dev=False, version_filter=None)
-        self.assertSetEqual(expected_packages, {str(package) for package in actual_packages})
+        actual_packages = list_packages_by_index(devpi_client, 'user', 'delete_me', only_dev=False, version_filter=None)
+        self.assertDictEqual(expected_packages, actual_packages)
 
         devpi_client.list.assert_called_once_with('--index', 'user/index2', '--all', 'delete_me')  # `--all` is important as otherwise not all packages will be returned
 
@@ -85,7 +85,7 @@ class ListTests(unittest.TestCase):
             'http://localhost:2414/user/index1/+f/45b/301745c6d8bbf/delete_me-0.1.tar.gz',
         ]
         expected_packages = {
-            'delete_me 0.2.dev2 on user/index1',
+            'user/index1': {Package(devpi_listing[5])},
         }
 
         devpi_client = Mock(spec=DevpiCommandWrapper)
@@ -94,8 +94,8 @@ class ListTests(unittest.TestCase):
         devpi_client.list_indices.return_value = ['user/index1']
         devpi_client.list.return_value = devpi_listing
 
-        actual_packages = list_packages(devpi_client, 'user', 'delete_me', only_dev=True, version_filter=None)
-        self.assertSetEqual(expected_packages, {str(package) for package in actual_packages})
+        actual_packages = list_packages_by_index(devpi_client, 'user', 'delete_me', only_dev=True, version_filter=None)
+        self.assertDictEqual(expected_packages, actual_packages)
 
     def test_list_only_packages_matching_version_filter(self):
         devpi_listing = [
@@ -109,7 +109,7 @@ class ListTests(unittest.TestCase):
             'http://localhost:2414/user/index1/+f/45b/301745c6d8bbf/delete_me-0.1.tar.gz',
         ]
         expected_packages = {
-            'delete_me 0.2a1 on user/index1',
+            'user/index1': {Package(devpi_listing[2])},
         }
 
         devpi_client = Mock(spec=DevpiCommandWrapper)
@@ -118,8 +118,8 @@ class ListTests(unittest.TestCase):
         devpi_client.list_indices.return_value = ['user/index1']
         devpi_client.list.return_value = devpi_listing
 
-        actual_packages = list_packages(devpi_client, 'user', 'delete_me', only_dev=False, version_filter=r'a\d+')
-        self.assertSetEqual(expected_packages, {str(package) for package in actual_packages})
+        actual_packages = list_packages_by_index(devpi_client, 'user', 'delete_me', only_dev=False, version_filter=r'a\d+')
+        self.assertDictEqual(expected_packages, actual_packages)
 
     def test_list_packages_on_https(self):
         devpi_listing = [
@@ -127,8 +127,8 @@ class ListTests(unittest.TestCase):
             'https://dummy-server/user/zwei/+f/70e/3bc67b3194144/dummy-2.0.tar.gz',
         ]
         expected_packages = {
-            'dummy 1.0 on user/eins',
-            'dummy 2.0 on user/zwei',
+            'user/eins': {Package(devpi_listing[0])},
+            'user/zwei': {Package(devpi_listing[1])},
         }
 
         devpi_client = Mock(spec=DevpiCommandWrapper)
@@ -137,22 +137,35 @@ class ListTests(unittest.TestCase):
         devpi_client.list.side_effect = [[package] for package in devpi_listing]
         devpi_client.url = 'https://dummy-server/user'
 
-        actual_packages = list_packages(devpi_client, 'user', 'dummy', only_dev=False, version_filter=None)
-        self.assertSetEqual(expected_packages, {str(package) for package in actual_packages})
+        actual_packages = list_packages_by_index(devpi_client, 'user', 'dummy', only_dev=False, version_filter=None)
+        self.assertDictEqual(expected_packages, actual_packages)
 
 
 class RemovalTests(unittest.TestCase):
-    def test_same_package_on_separate_indices(self):
+    def test_remove(self):
         packages = [
             Package('http://localhost:2414/user/index1/+f/313/8642d2b43a764/delete_me-0.2.tar.gz'),
+            Package('http://localhost:2414/user/index1/+f/313/8642d2b43a764/delete_me-0.3.tar.gz'),
+        ]
+
+        devpi_client = Mock(spec=DevpiCommandWrapper)
+        devpi_client.modify_index.return_value = 'volatile=True'
+        remove_packages(devpi_client, 'user/index1', packages, False)
+
+        self.assertEquals(2, devpi_client.remove.call_count)
+
+    def test_aborts_if_package_on_wrong_index(self):
+        packages = [
             Package('http://localhost:2414/user/index2/+f/313/8642d2b43a764/delete_me-0.2.tar.gz'),
         ]
 
         devpi_client = Mock(spec=DevpiCommandWrapper)
         devpi_client.modify_index.return_value = 'volatile=True'
-        remove_packages(devpi_client, packages, False)
 
-        self.assertEquals(2, devpi_client.remove.call_count)
+        with self.assertRaises(AssertionError):
+            remove_packages(devpi_client, 'user/index1', packages, False)
+
+        self.assertLess(devpi_client.remove.call_count, 1)
 
 
 class PackageTests(unittest.TestCase):

@@ -51,7 +51,7 @@ setup(
         'Programming Language :: Python :: 3.4',
         'Programming Language :: Python :: 3.5',
         'Topic :: System :: Archiving :: Packaging',
-        'Programming Language:: Python:: Implementation:: CPython',
+        'Programming Language :: Python :: Implementation :: CPython',
         'Programming Language :: Python :: Implementation :: PyPy',
         'Topic :: Utilities',
     ],

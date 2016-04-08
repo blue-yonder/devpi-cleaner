@@ -17,7 +17,7 @@ Devpi Cleaner
 
 
 Léon, the devpi cleaner, enables batch removal of artefacts from a `devpi server`_. Given a package and version
-specification it will remove the specified versions of a package from either a single index or all indices of a given
+specification, it will remove the specified versions of a package from either a single index or all indices of a given
 user.
 
 Rationale
@@ -32,15 +32,16 @@ Devpi cleaner wraps the original `devpi remove` command. It provides the followi
 Léon by Example
 ===============
 
-The following command will delete all development packages preceding version 0.2 of ``delete_me`` in indices of the
-user::
+The following command will delete all development packages preceding version 0.2 of ``delete_me`` on index `index1` of
+the user::
 
-    > devpi-cleaner http://localhost:2414/ user 'delete_me<=0.2' --dev-only
+    > devpi-cleaner http://localhost:2414/ user/index1 'delete_me<=0.2' --dev-only
     Password:
-    Packages to be deleted:
+    Packages to be deleted from user/index1:
+     * delete_me 0.2.dev1 on user/index1
      * delete_me 0.2.dev2 on user/index1
-     * delete_me 0.2.dev2 on user/index2
-    Enter "yes" to confirm: yes
+    Cleaning user/index1…
+    100% (2 of 2) |###########################| Elapsed Time: 0:00:00 Time: 0:00:00
     >
 
 As shown, packages will be listed and confirmation required before they are actually deleted from the server.

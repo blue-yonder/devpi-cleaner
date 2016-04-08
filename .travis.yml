@@ -8,7 +8,6 @@ python:
 sudo: false
 install:
 - pip install -r requirements.txt
-- pip install coveralls
 - pip freeze
 script: nosetests
 after_success: coveralls

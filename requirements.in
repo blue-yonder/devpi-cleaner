@@ -1,0 +1,13 @@
+# Installation requirements
+-e .
+
+# Set-up requirements
+setuptools_scm
+
+# Test requirements
+coverage
+mock
+nose
+
+# Travis requirements
+coveralls

@@ -16,8 +16,9 @@ Devpi Cleaner
     :target: https://requires.io/github/blue-yonder/devpi-cleaner/requirements/?branch=master
 
 
-Léon, the devpi cleaner, helps to batch removal of files from a `devpi server`_. Given a package and version specification
-it will remove the specified versions of a package from all indices of a given user.
+Léon, the devpi cleaner, enables batch removal of artefacts from a `devpi server`_. Given a package and version
+specification it will remove the specified versions of a package from either a single index or all indices of a given
+user.
 
 Rationale
 =========
@@ -31,8 +32,8 @@ Devpi cleaner wraps the original `devpi remove` command. It provides the followi
 Léon by Example
 ===============
 
-The following command will delete all development packages preceding version 0.2 of ``delete_me`` in indices of
-the user::
+The following command will delete all development packages preceding version 0.2 of ``delete_me`` in indices of the
+user::
 
     > devpi-cleaner http://localhost:2414/ user 'delete_me<=0.2' --dev-only
     Password:
@@ -49,8 +50,8 @@ Commandline Usage
 ::
 
     usage: devpi-cleaner [-h] [--batch] [--dev-only] [--version-filter REGEX]
-                     [--force] [--password PASSWORD] [--login LOGIN]
-                     server user[/index] package_specification
+                         [--force] [--password PASSWORD] [--login LOGIN]
+                         server user[/index] package_specification
 
     A utility to batch-remove packages from a Devpi server.
 

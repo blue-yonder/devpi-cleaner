@@ -34,6 +34,7 @@ setup(
     tests_require=[
         'coverage',
         'mock',
+        'devpi-plumber[test]',
     ],
     test_suite='nose.collector',
     classifiers=[

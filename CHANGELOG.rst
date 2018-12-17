@@ -5,6 +5,15 @@ Changelog
 This is the version history of `devpi_cleaner`.
 
 
+UNRELEASED
+==========
+
+Removed
+-------
+
+* Python 3.3 is no longer supported.
+
+
 Version 0.2.0 - 2016-04-08
 ==========================
 

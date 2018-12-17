@@ -8,6 +8,11 @@ This is the version history of `devpi_cleaner`.
 UNRELEASED
 ==========
 
+Added
+-----
+
+* Python 3.6 is now officially supported.
+
 Removed
 -------
 

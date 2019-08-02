@@ -1,4 +1,4 @@
 ---
 
-update: all
+update: insecure
 schedule: "every day"

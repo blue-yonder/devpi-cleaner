@@ -13,9 +13,7 @@ script: nosetests
 after_success: coveralls
 deploy:
   provider: pypi
-  user: BYPyPi
-  password:
-    secure: F1GSBgYgwsFqYXSYSW/2Ox8OACtFGbeDWXnmyia8qaT2OUJ960zrFeniPMqswXmqxPl3fc4A23kKJHGxoRJVKJONZ9KkKDly+UohguLY1E0HZwGZJwBxILrJBnbUOyRPiJfqkSvjZw4Vz2uNf2URqEd5eP9jSAsJlREGRrX0oMsP4Ro2+9H/DhcXR4kqPFTC0FplMu+VftjoppxWIw6iyGsnskjltSbUstGmKaeD2OlEHshnyfOiRz3dVgTx6aBacEnYsWCg+7PTaoEgb3Ck9s3hel10BjNqUVy0dN5upTT9Cw1Q+YyYTksaty++Q0Bm27lWQyF7oa+7uFYB4+uDfGdMyxvlqR9iNl6gbrGE+xFOScvwFsSgAxJqnGFSPvfs03XMFpHjV5HyFb8L04g7mQ9231iDsnYUBboxBGCKhA+2AcYbWgLBtvu7zlJkgST/++uD0GWxP0jiW7mZ/JaQWeOaw2hVufGQ4i4xOCHYSPDGAgFfuKGvnNew1QCZCyjHVUZKBVi0G3lVUjAVgiscshRQXPJERvk0wWE0MWAjnsWNJvy5AzudXkAtBxSo6GqxkJ+KNvZHbNuXV0Gav92L3OOG6PbZB7yw9vVec5SRbDxDUoS5U3GL+jvEksRZOIWmEvabRojNNW/nwYDlBPLsko3MNMu4jcbr14YcOsrkFOM=
+  user: __token__
   distributions: sdist bdist_wheel
   on:
     tags: true

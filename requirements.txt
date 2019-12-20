@@ -4,6 +4,7 @@
 #
 #    pip-compile --no-index --output-file requirements.txt requirements.in
 #
+-e file:///home/dependabot/dependabot-updater/tmp/dependabot_20191220-72-590x5g
 apipkg==1.5               # via execnet
 appdirs==1.4.3            # via devpi-server
 argon2-cffi==18.3.0       # via passlib
@@ -53,7 +54,7 @@ twitter.common.lang==0.3.9  # via twitter.common.dirutil
 urllib3==1.24.1           # via requests
 venusian==1.1.0           # via pyramid
 virtualenv==16.1.0        # via tox
-waitress==1.1.0           # via devpi-server
+waitress==1.4.0           # via devpi-server
 webob==1.8.4              # via pyramid
 zope.deprecation==4.4.0   # via pyramid
 zope.interface==4.6.0     # via pyramid

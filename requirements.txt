@@ -57,3 +57,5 @@ waitress==1.4.3           # via devpi-server
 webob==1.8.4              # via pyramid
 zope.deprecation==4.4.0   # via pyramid
 zope.interface==4.6.0     # via pyramid
+
+passlib>=1.7.3 # not directly required, pinned by Snyk to avoid a vulnerability

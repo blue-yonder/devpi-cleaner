@@ -33,7 +33,7 @@ plaster-pastedeploy==0.6  # via pyramid
 plaster==1.0              # via plaster-pastedeploy, pyramid
 pluggy==0.8.0             # via devpi-client, devpi-server, tox
 progressbar2==3.39.2
-py==1.7.0                 # via devpi-client, devpi-common, devpi-server, tox
+py==1.10.0                 # via devpi-client, devpi-common, devpi-server, tox
 pycparser==2.19           # via cffi
 pyramid==1.10.1           # via devpi-server
 python-dateutil==2.7.5    # via strictyaml

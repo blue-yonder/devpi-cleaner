@@ -150,6 +150,7 @@ class RemovalTests(unittest.TestCase):
 
         devpi_client = Mock(spec=DevpiCommandWrapper)
         devpi_client.modify_index.return_value = 'volatile=True'
+        devpi_client.get_json.return_value = {'result': {}}
         remove_packages(devpi_client, 'user/index1', packages, False)
 
         self.assertEquals(2, devpi_client.remove.call_count)

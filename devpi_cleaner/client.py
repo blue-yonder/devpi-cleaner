@@ -1,8 +1,8 @@
 # coding=utf-8
-
 import re
+import time
 
-from devpi_plumber.client import volatile_index
+from devpi_plumber.client import volatile_index, DevpiClientError
 
 _TAR_GZ_END = '.tar.gz'
 _TAR_BZ2_END = '.tar.bz2'
@@ -87,8 +87,38 @@ def list_packages_by_index(client, index_spec, package_spec, only_dev, version_f
     }
 
 
+def get_index_queue_size(metrics):
+    for metric_name, _, value in metrics:
+        if metric_name == "devpi_web_whoosh_index_queue_size":
+            return value
+    return 0
+
+
+def wait_for_sync(client):
+    """Deletion can cause significant load on the replicas, thus we need a way to wait for them to be in sync"""
+    now = start = time.time()
+    while now < start + 1800:  # up to 30 minutes
+        status = client.get_json('/+status')['result']
+        last_in_sync = float(status.get('replica-in-sync-at', now))
+        indexer_queue_size = get_index_queue_size(status.get('metrics', []))
+        if last_in_sync > now - 60 and indexer_queue_size < 100:
+            # We are neither talking to a lagging replica nor is the instance
+            # swamped with items to index. Should be fine to add some load.
+            return
+        # Wait for Devpi to catch up
+        time.sleep(10)
+        now = time.time()
+    # At some point we just have to continue, maybe we are lucky and this goes through
+    return
+
+
+def remove_package(client, package):
+    client.remove('--index', package.index, '{name}=={version}'.format(name=package.name, version=package.version))
+
+
 def remove_packages(client, index, packages, force):
     with volatile_index(client, index, force):
         for package in packages:
             assert package.index == index
-            client.remove('--index', package.index, '{name}=={version}'.format(name=package.name, version=package.version))
+            wait_for_sync(client)
+            remove_package(client, package)

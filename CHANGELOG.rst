@@ -11,6 +11,7 @@ UNRELEASED
 Added
 -----
 
+* Throttle deletion if Devpi seems under heavy load.
 * Python 3.6 is now officially supported.
 
 Removed

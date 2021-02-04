@@ -12,12 +12,12 @@ Added
 -----
 
 * Throttle deletion if Devpi seems under heavy load.
-* Python 3.6 is now officially supported.
+* Python 3.6 to 3.9 are now officially supported.
 
 Removed
 -------
 
-* Python 3.3 is no longer supported.
+* Python 2.7, and 3.3 to 3.5 are no longer supported.
 
 
 Version 0.2.0 - 2016-04-08

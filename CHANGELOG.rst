@@ -5,8 +5,8 @@ Changelog
 This is the version history of `devpi_cleaner`.
 
 
-UNRELEASED
-==========
+Version 0.3.0 - 2021-02-05
+==========================
 
 Added
 -----

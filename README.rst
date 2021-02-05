@@ -28,6 +28,7 @@ Devpi cleaner wraps the original `devpi remove` command. It provides the followi
 * Conditionally limit removal to versions matching a given regular expression.
 * Temporarily switch non-volatile indices to volatile.
 * Apply a remove operation to all indices of a user.
+* Throttle removal activities if the Devpi server is having difficulties keeping up.
 
 Léon by Example
 ===============

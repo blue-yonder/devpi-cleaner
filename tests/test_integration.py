@@ -1,7 +1,9 @@
 # coding=utf-8
 
 import collections
+import platform
 import unittest
+from unittest.case import SkipTest
 
 import mock
 import six
@@ -21,6 +23,11 @@ TEST_INDEX_TWO = TEST_USER + '/index2'
 TEST_INDICES[TEST_INDEX_TWO] = {'bases': TEST_INDEX_ONE}
 
 
+def _skip_on_pypy():
+    if platform.python_implementation() == 'PyPy':
+        raise SkipTest('TestDevpi code required currently does not support PyPy')
+
+
 def _bootstrap_test_user(client):
     indices = client.list_indices(user=TEST_USER)
     for index in indices:
@@ -36,6 +43,7 @@ def _filter_redirect_entry(packages):
 class IntegrationTests(unittest.TestCase):
 
     def test_dummy_setup(self):
+        _skip_on_pypy()
         with TestServer(users=TEST_USERS, indices=TEST_INDICES) as client:
             _bootstrap_test_user(client)
 
@@ -49,6 +57,7 @@ class IntegrationTests(unittest.TestCase):
                         self.assertTrue(any(entry.endswith(expected) for entry in actual_packages))
 
     def test_removes_specified_packages(self):
+        _skip_on_pypy()
         with TestServer(users=TEST_USERS, indices=TEST_INDICES) as client:
             _bootstrap_test_user(client)
 
@@ -65,6 +74,7 @@ class IntegrationTests(unittest.TestCase):
                 self.assertNotEqual(0, len(_filter_redirect_entry(client.list('delete_me==0.2.dev2'))))
 
     def test_abort_unless_yes(self):
+        _skip_on_pypy()
         with TestServer(users=TEST_USERS, indices=TEST_INDICES) as client:
             _bootstrap_test_user(client)
 
@@ -78,6 +88,7 @@ class IntegrationTests(unittest.TestCase):
                 self.assertNotEqual(0, len(_filter_redirect_entry(client.list('delete_me==0.2'))))
 
     def test_remove_only_dev_packages(self):
+        _skip_on_pypy()
         with TestServer(users=TEST_USERS, indices=TEST_INDICES) as client:
             _bootstrap_test_user(client)
 
@@ -93,6 +104,7 @@ class IntegrationTests(unittest.TestCase):
                 self.assertNotEqual(0, len(_filter_redirect_entry(client.list('delete_me==0.2.post1'))))
 
     def test_fails_on_non_volatile_by_default(self):
+        _skip_on_pypy()
         with TestServer(users=TEST_USERS, indices=TEST_INDICES) as client:
             _bootstrap_test_user(client)
 
@@ -116,6 +128,7 @@ class IntegrationTests(unittest.TestCase):
                 self.assertNotEqual(0, len(_filter_redirect_entry(client.list('delete_me==0.2'))))
 
     def test_force_removal_on_non_volatile(self):
+        _skip_on_pypy()
         with TestServer(users=TEST_USERS, indices=TEST_INDICES) as client:
             _bootstrap_test_user(client)
 
@@ -136,6 +149,7 @@ class IntegrationTests(unittest.TestCase):
             self.assertIn('volatile=True', client.modify_index('user/index2'))
 
     def test_other_users_indices(self):
+        _skip_on_pypy()
         with TestServer(users=TEST_USERS, indices=TEST_INDICES) as client:
             _bootstrap_test_user(client)
 
@@ -147,6 +161,7 @@ class IntegrationTests(unittest.TestCase):
                 self.assertListEqual([], _filter_redirect_entry(client.list('delete_me==0.2')))
 
     def test_removes_on_specified_index(self):
+        _skip_on_pypy()
         with TestServer(users=TEST_USERS, indices=TEST_INDICES) as client:
             _bootstrap_test_user(client)
 
@@ -160,6 +175,7 @@ class IntegrationTests(unittest.TestCase):
             ])
 
     def test_regex_version_filter(self):
+        _skip_on_pypy()
         with TestServer(users=TEST_USERS, indices=TEST_INDICES) as client:
             _bootstrap_test_user(client)
 

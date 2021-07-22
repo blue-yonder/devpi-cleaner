@@ -24,7 +24,7 @@ chardet==4.0.0
     # via requests
 check-manifest==0.46
     # via devpi-client
-coverage==5.4
+coverage==5.5
     # via
     #   -r requirements.in
     #   coveralls

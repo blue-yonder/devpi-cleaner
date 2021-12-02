@@ -126,6 +126,10 @@ def remove_packages(client, index, packages, force):
                     remove_package(client, package)
                     break  # on success, don't retry
                 except DevpiClientError as dce:
+                    if '404 Not Found' in str(dce):
+                        # this can happen if the package has been delted in between, or we got a 500 despite a
+                        # successfull deletion. Just continue with the next pacakge
+                        break
                     if '504 Gateway Time-out' in str(dce) \
                             or '502 Bad Gateway' in str(dce) \
                             or '500 Internal Server Error' in str(dce):

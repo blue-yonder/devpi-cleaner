@@ -99,8 +99,8 @@ def wait_for_sync(client):
     now = start = time.time()
     while now < start + 1800:  # up to 30 minutes
         status = client.get_json('/+status')['result']
-        last_in_sync = float(status.get('replica-in-sync-at', now))
-        indexer_queue_size = get_index_queue_size(status.get('metrics', []))
+        last_in_sync = float(status.get('replica-in-sync-at', now) or now)
+        indexer_queue_size = get_index_queue_size(status.get('metrics', []) or [])
         if last_in_sync > now - 60 and indexer_queue_size < 100:
             # We are neither talking to a lagging replica nor is the instance
             # swamped with items to index. Should be fine to add some load.
@@ -120,5 +120,16 @@ def remove_packages(client, index, packages, force):
     with volatile_index(client, index, force):
         for package in packages:
             assert package.index == index
-            wait_for_sync(client)
-            remove_package(client, package)
+            for retry in range(5):
+                try:
+                    wait_for_sync(client)
+                    remove_package(client, package)
+                    break  # on success, don't retry
+                except DevpiClientError as dce:
+                    if '504 Gateway Time-out' in str(dce) \
+                            or '502 Bad Gateway' in str(dce) \
+                            or '500 Internal Server Error' in str(dce):
+                        print(f'Hit {dce}, retrying…')
+                        time.sleep(5)
+                    else:
+                        raise

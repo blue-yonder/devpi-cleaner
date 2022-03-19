@@ -151,7 +151,7 @@ venusian==3.0.0
     # via pyramid
 virtualenv==20.4.2
     # via tox
-waitress==1.4.4
+waitress==2.1.1
     # via devpi-server
 webob==1.8.6
     # via pyramid

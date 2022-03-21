@@ -78,12 +78,12 @@ pep517==0.9.1
     # via build
 pkginfo==1.7.0
     # via devpi-client
-plaster-pastedeploy==0.7
-    # via pyramid
 plaster==1.0
     # via
     #   plaster-pastedeploy
     #   pyramid
+plaster-pastedeploy==0.7
+    # via pyramid
 pluggy==0.13.1
     # via
     #   devpi-client
@@ -107,13 +107,13 @@ python-dateutil==2.8.1
     # via strictyaml
 python-utils==2.5.6
     # via progressbar2
-repoze.lru==0.7
+repoze-lru==0.7
     # via devpi-server
 requests==2.25.1
     # via
     #   coveralls
     #   devpi-common
-ruamel.yaml==0.16.12
+ruamel-yaml==0.16.12
     # via strictyaml
 setuptools-scm==5.0.1
     # via -r requirements.in
@@ -139,25 +139,25 @@ tox==3.21.4
     # via devpi-client
 translationstring==1.4
     # via pyramid
-twitter.common.contextutil==0.3.11
+twitter-common-contextutil==0.3.11
     # via devpi-plumber
-twitter.common.dirutil==0.3.11
-    # via twitter.common.contextutil
-twitter.common.lang==0.3.11
-    # via twitter.common.dirutil
+twitter-common-dirutil==0.3.11
+    # via twitter-common-contextutil
+twitter-common-lang==0.3.11
+    # via twitter-common-dirutil
 urllib3==1.26.5
     # via requests
 venusian==3.0.0
     # via pyramid
 virtualenv==20.4.2
     # via tox
-waitress==1.4.4
+waitress==2.1.1
     # via devpi-server
 webob==1.8.6
     # via pyramid
-zope.deprecation==4.4.0
+zope-deprecation==4.4.0
     # via pyramid
-zope.interface==5.2.0
+zope-interface==5.2.0
     # via pyramid
 
 # The following packages are considered to be unsafe in a requirements file:

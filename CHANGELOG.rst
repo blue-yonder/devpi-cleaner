@@ -5,6 +5,20 @@ Changelog
 This is the version history of `devpi_cleaner`.
 
 
+UNRELEASED
+==========
+
+Added
+-----
+
+* Python 3.10 is now officially supported.
+
+Removed
+-------
+
+* Python 3.6 is no longer supported.
+
+
 Version 0.3.0 - 2021-02-05
 ==========================
 
@@ -13,6 +27,11 @@ Added
 
 * Throttle deletion if Devpi seems under heavy load.
 * Python 3.6 to 3.9 are now officially supported.
+
+Changed
+-------
+
+* Tests are now executed via pytest to avoid compatibility problems with Python 3.10.
 
 Removed
 -------

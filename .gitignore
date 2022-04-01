@@ -224,3 +224,7 @@ tests/artefacts/delete_me_package/build
 !tests/artefacts/delete_me_package/dist/*.tar.gz
 
 venv
+
+coverage_html_report
+.coverage*
+!.coveragerc

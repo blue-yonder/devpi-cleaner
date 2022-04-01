@@ -5,10 +5,7 @@
 setuptools_scm
 
 # Test requirements
-coverage
 mock
-nose
+pytest
+pytest-cov
 devpi-plumber[test]
-
-# Travis requirements
-coveralls

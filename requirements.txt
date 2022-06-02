@@ -4,6 +4,8 @@
 #
 #    pip-compile --no-emit-index-url
 #
+-e file:///home/dependabot/dependabot-updater/tmp/dependabot_20220602-7-jcy95e
+    # via -r requirements.in
 aiohttp==3.8.1
     # via devpi-server
 aiosignal==1.2.0
@@ -15,8 +17,6 @@ argon2-cffi==21.3.0
 argon2-cffi-bindings==21.2.0
     # via argon2-cffi
 async-timeout==4.0.2
-    # via aiohttp
-asynctest==0.13.0
     # via aiohttp
 attrs==21.4.0
     # via
@@ -41,8 +41,8 @@ defusedxml==0.7.1
     # via devpi-server
 devpi-client==5.2.3
     # via
-    #   devpi-cleaner
     #   devpi-plumber
+    #   sanitized-package
 devpi-common==3.6.0
     # via
     #   devpi-client
@@ -50,7 +50,7 @@ devpi-common==3.6.0
 devpi-plumber[test]==0.6.0
     # via
     #   -r requirements.in
-    #   devpi-cleaner
+    #   sanitized-package
 devpi-server==6.5.0
     # via devpi-plumber
 distlib==0.3.4
@@ -69,14 +69,6 @@ idna==3.3
     # via
     #   requests
     #   yarl
-importlib-metadata==4.11.3
-    # via
-    #   build
-    #   pep517
-    #   pluggy
-    #   pytest
-    #   tox
-    #   virtualenv
 iniconfig==1.1.1
     # via pytest
 itsdangerous==2.1.2
@@ -122,7 +114,7 @@ pluggy==1.0.0
     #   pytest
     #   tox
 progressbar2==4.0.0
-    # via devpi-cleaner
+    # via sanitized-package
 py==1.11.0
     # via
     #   devpi-client
@@ -130,6 +122,8 @@ py==1.11.0
     #   devpi-server
     #   pytest
     #   tox
+pycparser==2.21
+    # via cffi
 pyparsing==3.0.7
     # via packaging
 pyramid==2.0
@@ -152,12 +146,14 @@ requests==2.27.1
     #   devpi-plumber
 ruamel-yaml==0.17.21
     # via devpi-server
+ruamel-yaml-clib==0.2.6
+    # via ruamel-yaml
 setuptools-scm==6.4.2
     # via -r requirements.in
 six==1.16.0
     # via
-    #   devpi-cleaner
     #   python-dateutil
+    #   sanitized-package
     #   tox
     #   virtualenv
 strictyaml==1.6.1
@@ -182,29 +178,18 @@ twitter-common-dirutil==0.3.11
     # via twitter-common-contextutil
 twitter-common-lang==0.3.11
     # via twitter-common-dirutil
-typing-extensions==4.1.1
-    # via
-    #   aiohttp
-    #   argon2-cffi
-    #   async-timeout
-    #   importlib-metadata
-    #   yarl
 urllib3==1.26.9
     # via requests
 venusian==3.0.0
     # via pyramid
 virtualenv==20.14.0
     # via tox
-waitress==2.1.1
+waitress==2.1.2
     # via devpi-server
 webob==1.8.7
     # via pyramid
 yarl==1.7.2
     # via aiohttp
-zipp==3.7.0
-    # via
-    #   importlib-metadata
-    #   pep517
 zope-deprecation==4.4.0
     # via pyramid
 zope-interface==5.4.0

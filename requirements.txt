@@ -23,9 +23,9 @@ attrs==21.4.0
     #   aiohttp
     #   devpi-server
     #   pytest
-build==0.7.0
+build==0.8.0
     # via check-manifest
-certifi==2021.10.8
+certifi==2022.5.18.1
     # via requests
 cffi==1.15.0
     # via argon2-cffi-bindings
@@ -35,7 +35,7 @@ charset-normalizer==2.0.12
     #   requests
 check-manifest==0.48
     # via devpi-client
-coverage[toml]==6.3.2
+coverage[toml]==6.4.1
     # via pytest-cov
 defusedxml==0.7.1
     # via devpi-server
@@ -51,11 +51,11 @@ devpi-plumber[test]==0.6.0
     # via
     #   -r requirements.in
     #   devpi-cleaner
-devpi-server==6.5.0
+devpi-server==6.5.1
     # via devpi-plumber
 distlib==0.3.4
     # via virtualenv
-filelock==3.6.0
+filelock==3.7.1
     # via
     #   tox
     #   virtualenv
@@ -69,7 +69,7 @@ idna==3.3
     # via
     #   requests
     #   yarl
-importlib-metadata==4.11.3
+importlib-metadata==4.11.4
     # via
     #   build
     #   pep517
@@ -111,7 +111,7 @@ plaster==1.0
     #   pyramid
 plaster-pastedeploy==0.7
     # via pyramid
-platformdirs==2.5.1
+platformdirs==2.5.2
     # via
     #   devpi-server
     #   virtualenv
@@ -130,11 +130,13 @@ py==1.11.0
     #   devpi-server
     #   pytest
     #   tox
-pyparsing==3.0.7
+pycparser==2.21
+    # via cffi
+pyparsing==3.0.9
     # via packaging
 pyramid==2.0
     # via devpi-server
-pytest==7.1.1
+pytest==7.1.2
     # via
     #   -r requirements.in
     #   pytest-cov
@@ -142,7 +144,7 @@ pytest-cov==3.0.0
     # via -r requirements.in
 python-dateutil==2.8.2
     # via strictyaml
-python-utils==3.1.0
+python-utils==3.3.3
     # via progressbar2
 repoze-lru==0.7
     # via devpi-server
@@ -152,6 +154,8 @@ requests==2.27.1
     #   devpi-plumber
 ruamel-yaml==0.17.21
     # via devpi-server
+ruamel-yaml-clib==0.2.6
+    # via ruamel-yaml
 setuptools-scm==6.4.2
     # via -r requirements.in
 six==1.16.0
@@ -172,7 +176,7 @@ tomli==2.0.1
     #   pep517
     #   pytest
     #   setuptools-scm
-tox==3.24.5
+tox==3.25.0
     # via devpi-client
 translationstring==1.4
     # via pyramid
@@ -182,7 +186,7 @@ twitter-common-dirutil==0.3.11
     # via twitter-common-contextutil
 twitter-common-lang==0.3.11
     # via twitter-common-dirutil
-typing-extensions==4.1.1
+typing-extensions==4.2.0
     # via
     #   aiohttp
     #   argon2-cffi
@@ -193,15 +197,15 @@ urllib3==1.26.9
     # via requests
 venusian==3.0.0
     # via pyramid
-virtualenv==20.14.0
+virtualenv==20.14.1
     # via tox
-waitress==2.1.1
+waitress==2.1.2
     # via devpi-server
 webob==1.8.7
     # via pyramid
 yarl==1.7.2
     # via aiohttp
-zipp==3.7.0
+zipp==3.8.0
     # via
     #   importlib-metadata
     #   pep517

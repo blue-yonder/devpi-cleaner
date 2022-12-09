@@ -15,6 +15,7 @@ setup(
     use_scm_version=True,
     description="""Enables batch removal of packages from a devpi server.""",
     long_description='{}\n\n{}'.format(readme, changelog),
+    long_description_content_type='text/x-rst',
     author='Matthias Bach',
     author_email='matthias.bach@blue-yonder.com',
     url='https://github.com/blue-yonder/devpi-cleaner',

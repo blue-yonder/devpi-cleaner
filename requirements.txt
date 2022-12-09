@@ -154,7 +154,7 @@ requests==2.27.1
     #   devpi-plumber
 ruamel-yaml==0.17.21
     # via devpi-server
-ruamel-yaml-clib==0.2.6
+ruamel-yaml-clib==0.2.7
     # via ruamel-yaml
 setuptools-scm==6.4.2
     # via -r requirements.in

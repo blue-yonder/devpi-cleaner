@@ -8,6 +8,8 @@ with open('README.rst') as f:
     readme = f.read()
 with open('CHANGELOG.rst') as f:
     changelog = f.read()
+with open('core-requirements.txt') as f:
+    requirements = [line.strip() for line in f.readlines() if line[:1] != '#']
 
 
 setup(
@@ -21,13 +23,7 @@ setup(
     url='https://github.com/blue-yonder/devpi-cleaner',
     license='new BSD',
     packages=find_packages(exclude=['tests']),
-    install_requires=[
-        'devpi-client>=2.4.0',  # minimal version to support --index
-        'devpi-plumber>=0.2.5',
-        'setuptools>=0.8',
-        'six',
-        'progressbar2',
-    ],
+    install_requires=requirements,
     setup_requires=[
         'nose',
         'setuptools_scm',

@@ -25,15 +25,8 @@ setup(
     packages=find_packages(exclude=['tests']),
     install_requires=requirements,
     setup_requires=[
-        'nose',
         'setuptools_scm',
     ],
-    tests_require=[
-        'coverage',
-        'mock',
-        'devpi-plumber[test]',
-    ],
-    test_suite='nose.collector',
     classifiers=[
         'Development Status :: 4 - Beta',
         'Environment :: Console',

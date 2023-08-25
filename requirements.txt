@@ -124,7 +124,7 @@ pycparser==2.21
     # via cffi
 pyparsing==3.0.9
     # via packaging
-pyramid==2.0
+pyramid==2.0.2
     # via devpi-server
 pytest==7.1.2
     # via

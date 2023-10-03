@@ -172,7 +172,7 @@ twitter-common-dirutil==0.3.11
     # via twitter-common-contextutil
 twitter-common-lang==0.3.11
     # via twitter-common-dirutil
-urllib3==1.26.9
+urllib3==1.26.17
     # via requests
 venusian==3.0.0
     # via pyramid

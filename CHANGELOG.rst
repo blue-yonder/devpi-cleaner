@@ -11,7 +11,7 @@ UNRELEASED
 Added
 -----
 
-* Python 3.10 and 3.11 are now officially supported.
+* Python 3.10 and 3.11 as well as PyPy 3.10 are now officially supported.
 
 Removed
 -------

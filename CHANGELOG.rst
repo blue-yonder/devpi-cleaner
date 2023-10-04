@@ -16,7 +16,7 @@ Added
 Removed
 -------
 
-* Python 3.6 is no longer supported.
+* Python 3.6 and 3.7 as well as PyPy 3.7 and 3.8 are no longer supported.
 * Dropped support for running tests via `setup.py test`.
   The mechanism is considered deprecated by upstream and removing it allows us to drop a dependency.
 

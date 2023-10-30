@@ -116,7 +116,7 @@ class IntegrationTests(unittest.TestCase):
             with mock.patch('sys.stderr', new_callable=six.StringIO) as error_output:
                 with self.assertRaises(SystemExit) as exit_code_catcher:
                     main([client.server_url, TEST_USER, 'delete_me', '--batch', '--password', TEST_PASSWORD])
-                self.assertEquals(1, exit_code_catcher.exception.code)
+                self.assertEqual(1, exit_code_catcher.exception.code)
 
             self.assertIn('not volatile', error_output.getvalue())
 

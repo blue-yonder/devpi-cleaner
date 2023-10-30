@@ -153,7 +153,7 @@ class RemovalTests(unittest.TestCase):
         devpi_client.get_json.return_value = {'result': {}}
         remove_packages(devpi_client, 'user/index1', packages, False)
 
-        self.assertEquals(2, devpi_client.remove.call_count)
+        self.assertEqual(2, devpi_client.remove.call_count)
 
     def test_aborts_if_package_on_wrong_index(self):
         packages = [
@@ -172,41 +172,41 @@ class RemovalTests(unittest.TestCase):
 class PackageTests(unittest.TestCase):
     def test_sdist(self):
         package = Package('http://localhost:2414/user/index1/+f/45b/301745c6d8bbf/delete_me-0.1.tar.gz')
-        self.assertEquals('user/index1', package.index)
-        self.assertEquals('delete_me', package.name)
-        self.assertEquals('0.1', package.version)
+        self.assertEqual('user/index1', package.index)
+        self.assertEqual('delete_me', package.name)
+        self.assertEqual('0.1', package.version)
         self.assertFalse(package.is_dev_package)
 
         zip_package = Package('http://localhost:2414/user/index1/+f/45b/301745c6d8bbe/delete_me-0.1.zip')
-        self.assertEquals('0.1', zip_package.version)
+        self.assertEqual('0.1', zip_package.version)
 
         with_dashes = Package('http://localhost:2414/user/index1/+f/45b/301745c6d7bbf/with-dashes-0.1.tar.gz')
-        self.assertEquals('0.1', with_dashes.version)
+        self.assertEqual('0.1', with_dashes.version)
 
         setuptools_scm_and_old_setuptools = Package('http://localhost:2414/user/index1/+f/25d/bb41cc64d762f/old_setuptools_used-2.1.2.dev7-ng8964316.tar.gz')
-        self.assertEquals('old_setuptools_used', setuptools_scm_and_old_setuptools.name)
-        self.assertEquals('2.1.2.dev7-ng8964316', setuptools_scm_and_old_setuptools.version)
+        self.assertEqual('old_setuptools_used', setuptools_scm_and_old_setuptools.name)
+        self.assertEqual('2.1.2.dev7-ng8964316', setuptools_scm_and_old_setuptools.version)
 
         pyscaffold_and_old_setuptools = Package('http://localhost:2414/user/index1/+f/088/58034d63c6a98/old-setuptools-used-0.1.0.post0.dev4-g5e41942.tar.gz')
-        self.assertEquals('old-setuptools-used', pyscaffold_and_old_setuptools.name)
-        self.assertEquals('0.1.0.post0.dev4-g5e41942', pyscaffold_and_old_setuptools.version)
+        self.assertEqual('old-setuptools-used', pyscaffold_and_old_setuptools.name)
+        self.assertEqual('0.1.0.post0.dev4-g5e41942', pyscaffold_and_old_setuptools.version)
 
     def test_wheel(self):
         package = Package('http://localhost:2414/user/index1/+f/636/95eef6ac86c76/delete_me-0.2.dev2-py2.py3-none-any.whl')
-        self.assertEquals('user/index1', package.index)
-        self.assertEquals('delete_me', package.name)
-        self.assertEquals('0.2.dev2', package.version)
+        self.assertEqual('user/index1', package.index)
+        self.assertEqual('delete_me', package.name)
+        self.assertEqual('0.2.dev2', package.version)
         self.assertTrue(package.is_dev_package)
 
         old_setuptools = Package('http://localhost:2414/user/index1/+f/475/732413fe3d8f8/old_setuptools_used-0.6b3.post0.dev27_gf3ac2d5-py2-none-any.whl')
-        self.assertEquals('old_setuptools_used', old_setuptools.name)
-        self.assertEquals('0.6b3.post0.dev27_gf3ac2d5', old_setuptools.version)
+        self.assertEqual('old_setuptools_used', old_setuptools.name)
+        self.assertEqual('0.6b3.post0.dev27_gf3ac2d5', old_setuptools.version)
 
     def test_egg(self):
         package = Package('http://localhost:2414/user/index1/+f/636/95eef6acadc76/some_egg-0.1.dev4-py2.7.egg')
-        self.assertEquals('user/index1', package.index)
-        self.assertEquals('some_egg', package.name)
-        self.assertEquals('0.1.dev4', package.version)
+        self.assertEqual('user/index1', package.index)
+        self.assertEqual('some_egg', package.name)
+        self.assertEqual('0.1.dev4', package.version)
         self.assertTrue(package.is_dev_package)
 
     def test_unknown_format(self):
@@ -216,13 +216,13 @@ class PackageTests(unittest.TestCase):
     def test_string(self):
         http_url = 'http://localhost:2414/user/index1/+f/45b/301745c6d8bbf/delete_me-0.1.tar.gz'
         package = Package(http_url)
-        self.assertEquals('delete_me 0.1 on user/index1', str(package))
+        self.assertEqual('delete_me 0.1 on user/index1', str(package))
 
     def test_from_https_url(self):
         package = Package('https://localhost:2414/user/index1/+f/636/95eef6ac86c76/delete_me-0.2.dev2-py2.py3-none-any.whl')
-        self.assertEquals('user/index1', package.index)
-        self.assertEquals('delete_me', package.name)
-        self.assertEquals('0.2.dev2', package.version)
+        self.assertEqual('user/index1', package.index)
+        self.assertEqual('delete_me', package.name)
+        self.assertEqual('0.2.dev2', package.version)
         self.assertTrue(package.is_dev_package)
 
     def test_comparison(self):
@@ -231,10 +231,10 @@ class PackageTests(unittest.TestCase):
         package_v2_wheel = Package('https://localhost:2414/user/index1/+f/636/95eef6ac86c76/delete_me-0.2-py2.py3-none-any.whl')
         other_package_v1_sdist = Package('https://dummy-server/user/eins/+f/70e/3bc67b3194143/dummy-0.1.tar.gz')
 
-        self.assertEquals(package_v1_sdist, package_v1_sdist)
-        self.assertEquals(package_v1_sdist, package_v1_wheel)
-        self.assertNotEquals(package_v1_wheel, package_v2_wheel)
-        self.assertNotEquals(package_v1_sdist, other_package_v1_sdist)
+        self.assertEqual(package_v1_sdist, package_v1_sdist)
+        self.assertEqual(package_v1_sdist, package_v1_wheel)
+        self.assertNotEqual(package_v1_wheel, package_v2_wheel)
+        self.assertNotEqual(package_v1_sdist, other_package_v1_sdist)
 
     def test_hash(self):
         package_v1_sdist = Package('http://localhost:2414/user/index1/+f/45b/301745c6d8bbf/delete_me-0.1.tar.gz')
@@ -244,7 +244,7 @@ class PackageTests(unittest.TestCase):
             'https://localhost:2414/user/index1/+f/636/95eef6ac86c76/delete_me-0.2-py2.py3-none-any.whl')
         other_package_v1_sdist = Package('https://dummy-server/user/eins/+f/70e/3bc67b3194143/dummy-0.1.tar.gz')
 
-        self.assertEquals(hash(package_v1_sdist), hash(package_v1_sdist))
-        self.assertEquals(hash(package_v1_sdist), hash(package_v1_wheel))
-        self.assertNotEquals(hash(package_v1_wheel), hash(package_v2_wheel))
-        self.assertNotEquals(hash(package_v1_sdist), hash(other_package_v1_sdist))
+        self.assertEqual(hash(package_v1_sdist), hash(package_v1_sdist))
+        self.assertEqual(hash(package_v1_sdist), hash(package_v1_wheel))
+        self.assertNotEqual(hash(package_v1_wheel), hash(package_v2_wheel))
+        self.assertNotEqual(hash(package_v1_sdist), hash(other_package_v1_sdist))

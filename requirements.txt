@@ -131,7 +131,7 @@ python-utils==3.9.1
     # via progressbar2
 repoze-lru==0.7
     # via devpi-server
-requests==2.32.3
+requests==2.32.4
     # via
     #   devpi-common
     #   devpi-plumber

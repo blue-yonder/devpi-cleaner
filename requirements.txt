@@ -170,7 +170,7 @@ typing-extensions==4.13.2
     #   anyio
     #   python-utils
     #   setuptools-scm
-urllib3==2.6.0
+urllib3==2.6.3
     # via requests
 venusian==3.1.1
     # via pyramid

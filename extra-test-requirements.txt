@@ -1,2 +1,3 @@
 devpi-plumber[test]
 devpi-server>=6.19.1
+legacy-cgi

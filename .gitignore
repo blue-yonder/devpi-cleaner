@@ -214,6 +214,8 @@ crashlytics-build.properties
 
 
 
+tox/
+
 README.html
 
 CHANGELOG.html

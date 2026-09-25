@@ -1,5 +1,5 @@
 min_version = "4.0"
-env_list = ["3.10", "3.11", "3.12", "3.13", "3.14", "pypy3.11", "pypy3.12"]
+env_list = ["3.10", "3.11", "3.12", "3.13", "3.14"]
 
 [env_run_base]
 description = "run tests on {base_python}"

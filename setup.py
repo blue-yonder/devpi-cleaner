@@ -44,7 +44,6 @@ setup(
         'Programming Language :: Python :: 3.14',
         'Topic :: System :: Archiving :: Packaging',
         'Programming Language :: Python :: Implementation :: CPython',
-        'Programming Language :: Python :: Implementation :: PyPy',
         'Topic :: Utilities',
     ],
     entry_points={

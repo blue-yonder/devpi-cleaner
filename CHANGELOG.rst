@@ -11,7 +11,8 @@ UNRELEASED
 Added
 -----
 
-* Python 3.10, 3.11, 3.12, 3.13, and 3.14 are now officially supported.
+* Python 3.10, 3.11, 3.12, 3.13, and 3.14 are now officially supported on CPython.
+* PyPy 3.11 and 3.12 are now officially supported.
 
 Removed
 -------

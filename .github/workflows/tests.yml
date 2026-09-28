@@ -25,7 +25,7 @@ jobs:
         python -m pip freeze
     - name: Test with pytest
       run: |
-        tox -e py${{ matrix.python-version }}
+        tox -e ${{ matrix.python-version }} -- --cov
     - name: Upload coverage data
       run: |
         coveralls --service=github

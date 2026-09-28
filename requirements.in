@@ -8,4 +8,4 @@ setuptools_scm
 mock
 pytest
 pytest-cov
-devpi-plumber[test]
+-r extra-test-requirements.txt

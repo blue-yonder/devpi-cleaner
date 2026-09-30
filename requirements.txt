@@ -115,11 +115,13 @@ py==1.11.0
     # via devpi-server
 pycparser==2.22
     # via cffi
+pygments==2.21.0
+    # via pytest
 pyproject-hooks==1.2.0
     # via build
 pyramid==2.0.2
     # via devpi-server
-pytest==8.3.5
+pytest==9.0.3
     # via
     #   -r requirements.in
     #   pytest-cov

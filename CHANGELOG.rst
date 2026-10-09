@@ -11,12 +11,12 @@ UNRELEASED
 Added
 -----
 
-* Python 3.10, 3.11, 3.12, 3.13, and 3.14 are now officially supported.
+* Python 3.11, 3.12, 3.13, and 3.14 are now officially supported.
 
 Removed
 -------
 
-* Python 3.6 to 3.9 as well as PyPy 3.7 to 3.10 are no longer supported.
+* Python 3.6 to 3.10 as well as PyPy 3.7 to 3.10 are no longer supported.
 * Dropped support for running tests via `setup.py test`.
   The mechanism is considered deprecated by upstream and removing it allows us to drop a dependency.
 

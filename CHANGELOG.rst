@@ -13,6 +13,11 @@ Added
 
 * Python 3.11, 3.12, 3.13, and 3.14 are now officially supported.
 
+Changed
+-------
+
+* Stop marking wheels as universal now that Python 2 is no longer supported.
+
 Removed
 -------
 

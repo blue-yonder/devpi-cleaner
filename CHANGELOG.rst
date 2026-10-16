@@ -16,6 +16,7 @@ Added
 Changed
 -------
 
+* Compatibility with Python 3.15 has been verified.
 * Stop marking wheels as universal now that Python 2 is no longer supported.
 
 Removed

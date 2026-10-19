@@ -11,8 +11,7 @@ UNRELEASED
 Added
 -----
 
-* Python 3.11, 3.12, 3.13, and 3.14 are now officially supported.
-* Compatibility with Python 3.15 has been verified.
+* Compatibility with Python 3.11, 3.12, 3.13, 3.14, and 3.15 has been verified.
 
 Changed
 -------

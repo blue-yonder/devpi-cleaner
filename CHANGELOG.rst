@@ -5,8 +5,8 @@ Changelog
 This is the version history of `devpi_cleaner`.
 
 
-UNRELEASED
-==========
+Version 0.3.1 - 2026-10-20
+==========================
 
 Added
 -----
@@ -21,10 +21,9 @@ Changed
 Removed
 -------
 
-* Python 3.6 to 3.10 as well as PyPy 3.7 to 3.10 are no longer supported.
+* Compatibility with Python 3.6 to 3.10 as well as PyPy 3.7 to 3.10 is no longer verified.
 * Dropped support for running tests via `setup.py test`.
   The mechanism is considered deprecated by upstream and removing it allows us to drop a dependency.
-
 
 
 Version 0.3.0 - 2021-02-05

@@ -45,6 +45,7 @@ htmlcov/
 .cache
 coverage.xml
 *,cover
+.venv
 
 # Translations
 *.mo

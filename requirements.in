@@ -1,5 +1,5 @@
 # Installation requirements
--r core-requirements.txt
+-r core-requirements.in
 
 # Set-up requirements
 setuptools_scm

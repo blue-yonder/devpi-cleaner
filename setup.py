@@ -8,7 +8,7 @@ with open('README.rst') as f:
     readme = f.read()
 with open('CHANGELOG.rst') as f:
     changelog = f.read()
-with open('core-requirements.txt') as f:
+with open('core-requirements.in') as f:
     requirements = [line.strip() for line in f.readlines() if line[:1] != '#']
 
 

@@ -35,7 +35,7 @@ defusedxml==0.7.1
     # via devpi-server
 devpi-client==7.3.0
     # via
-    #   -r core-requirements.txt
+    #   -r core-requirements.in
     #   devpi-plumber
 devpi-common==4.1.1
     # via
@@ -43,7 +43,7 @@ devpi-common==4.1.1
     #   devpi-server
 devpi-plumber==0.7.0
     # via
-    #   -r core-requirements.txt
+    #   -r core-requirements.in
     #   -r extra-test-requirements.txt
 devpi-server==6.20.3
     # via
@@ -108,7 +108,7 @@ pluggy==1.7.0
     #   pytest
     #   pytest-cov
 progressbar2==4.6.0
-    # via -r core-requirements.txt
+    # via -r core-requirements.in
 py==1.11.0
     # via devpi-server
 pycparser==3.11
@@ -141,7 +141,7 @@ ruamel-yaml==0.19.1
     # via devpi-server
 setuptools==81.0.0
     # via
-    #   -r core-requirements.txt
+    #   -r core-requirements.in
     #   check-manifest
     #   devpi-server
     #   pyramid
@@ -151,7 +151,7 @@ setuptools-scm==10.3.4
     # via -r requirements.in
 six==1.17.0
     # via
-    #   -r core-requirements.txt
+    #   -r core-requirements.in
     #   python-dateutil
 strictyaml==1.7.3
     # via devpi-server

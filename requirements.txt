@@ -44,10 +44,10 @@ devpi-common==4.1.1
 devpi-plumber==0.7.0
     # via
     #   -r core-requirements.in
-    #   -r extra-test-requirements.txt
+    #   -r extra-test-requirements.in
 devpi-server==6.20.3
     # via
-    #   -r extra-test-requirements.txt
+    #   -r extra-test-requirements.in
     #   devpi-plumber
 h11==0.16.0
     # via httpcore
@@ -73,7 +73,7 @@ lazy==2.0
     #   devpi-common
     #   devpi-server
 legacy-cgi==2.6.4
-    # via -r extra-test-requirements.txt
+    # via -r extra-test-requirements.in
 mock==5.2.0
     # via -r requirements.in
 packaging==26.3

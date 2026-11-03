@@ -8,4 +8,4 @@ setuptools_scm
 mock
 pytest
 pytest-cov
--r extra-test-requirements.txt
+-r extra-test-requirements.in
